@@ -3468,6 +3468,336 @@ renderIcons = function(){
 })();
 
 
+/* =====================================================================
+   KIM-OS · « Kim », agent d'accueil (chat + diagnostic + lead)
+   Branché sur le workflow n8n « kimos-agent » (voir n8n/LISEZMOI.md).
+   Sans réponse du workflow, l'agent bascule en mode démo local.
+   ===================================================================== */
+(function(){
+  const AGENT_URL = "https://semarjedjiga.app.n8n.cloud/webhook/kimos-agent";
+  const RATE = 35, AUTO = 0.8; // €/h chargé et part automatisable (hypothèses affichées)
+
+  document.head.insertAdjacentHTML("beforeend", `<style>
+.kim{display:flex;flex-direction:column;height:100%;background:linear-gradient(180deg,#F7F8FC,#EEF1F8);color:#1C1C1E;font-size:14px}
+.kim-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #E3E6EE;background:#fff}
+.kim-av{width:42px;height:42px;border-radius:14px;flex:none;background:linear-gradient(135deg,#FF8A5B,#E8453C);display:grid;place-items:center;box-shadow:0 4px 14px rgba(232,69,60,.35)}
+.kim-av svg{width:26px;height:26px}
+.kim-head b{font-size:15px;display:block}
+.kim-st{font-size:11.5px;color:#6E6E73;display:flex;align-items:center;gap:6px}
+.kim-st i{width:7px;height:7px;border-radius:50%;background:#2FBF71;display:inline-block;box-shadow:0 0 0 3px rgba(47,191,113,.18)}
+.kim-st.wait i{background:#A0A6B5;box-shadow:none}
+.kim-st.demo i{background:#FFB547;box-shadow:0 0 0 3px rgba(255,181,71,.2)}
+.kim-log{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.kb{max-width:86%;padding:10px 13px;border-radius:16px;line-height:1.5;white-space:pre-wrap;animation:kin .25s ease}
+.kb.a{background:#fff;border:1px solid #E3E6EE;border-bottom-left-radius:5px;align-self:flex-start}
+.kb.u{background:#1F5A96;color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+@keyframes kin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kchips{display:flex;flex-wrap:wrap;gap:7px;align-self:flex-start;max-width:100%}
+.kchips button{background:#fff;border:1.5px solid #1F5A96;color:#1F5A96;font-weight:600;font-size:12.5px;padding:7px 12px;border-radius:999px;transition:background .15s,color .15s}
+.kchips button:hover{background:#1F5A96;color:#fff}
+.kchips button.prim{background:#E8453C;border-color:#E8453C;color:#fff}
+.ktyping{align-self:flex-start;background:#fff;border:1px solid #E3E6EE;border-radius:16px;padding:12px 14px;display:flex;gap:4px}
+.ktyping span{width:6px;height:6px;border-radius:50%;background:#A0A6B5;animation:kdot 1s infinite}
+.ktyping span:nth-child(2){animation-delay:.15s}.ktyping span:nth-child(3){animation-delay:.3s}
+@keyframes kdot{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.kcard{align-self:stretch;background:#fff;border:1px solid #E3E6EE;border-radius:16px;padding:14px 16px;box-shadow:0 6px 20px rgba(15,30,60,.06);animation:kin .3s ease}
+.kcard h4{font-size:15px;margin-bottom:4px}
+.kcard .kres{font-size:13px;color:#3A3A3C;margin-bottom:10px}
+.kflow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 12px}
+.kflow .kn{font-size:11.5px;background:#F2F4F9;border:1px solid #DCE1EC;border-radius:9px;padding:6px 8px;line-height:1.3;opacity:0;animation:kin .3s ease forwards}
+.kflow .kn b{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#6E7690}
+.kflow .kn.ia{border-color:#B9AEFF;background:#F3F0FF}.kflow .kn.ia b{color:#5B4BD6}
+.kflow .karr{color:#A0A6B5;font-size:12px}
+.kroi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kroi div{background:linear-gradient(135deg,#0B1F3A,#1F5A96);color:#fff;border-radius:12px;padding:10px}
+.kroi b{display:block;font-size:20px;font-family:var(--serif);line-height:1.1}
+.kroi span{font-size:11px;opacity:.85}
+.khyp{font-size:11px;color:#6E6E73;margin-top:8px}
+.kvig{font-size:12px;color:#5B4BD6;margin-top:6px}
+.kform{display:grid;gap:8px;margin-top:4px}
+.kform input{border:1px solid #D5DAE5;border-radius:10px;padding:9px 11px;font:inherit;font-size:13px;background:#fff}
+.kform label{font-size:11.5px;color:#6E6E73;display:flex;gap:7px;align-items:flex-start;line-height:1.4}
+.kform button{background:#E8453C;color:#fff;font-weight:700;border-radius:10px;padding:10px}
+.kform .kerr{color:#C0392B;font-size:12px}
+.kin{display:flex;gap:8px;padding:12px;border-top:1px solid #E3E6EE;background:#fff}
+.kin input{flex:1;border:1px solid #D5DAE5;border-radius:999px;padding:10px 14px;font:inherit;font-size:13.5px;outline:none}
+.kin input:focus{border-color:#1F5A96}
+.kin button{background:#1F5A96;color:#fff;border-radius:999px;width:40px;height:40px;display:grid;place-items:center;flex:none}
+.kin button svg{width:18px;height:18px}
+.kfoot{font-size:10.5px;color:#8E8E93;text-align:center;padding:0 12px 8px;background:#fff}
+#kimBubble{position:fixed;right:22px;bottom:104px;z-index:9000;display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:6px 14px 6px 6px;box-shadow:0 10px 30px rgba(15,30,60,.22);font-weight:600;font-size:13px;color:#1C1C1E;animation:kin .4s ease}
+#kimBubble .kim-av{width:36px;height:36px;border-radius:50%}
+#kimBubble .kim-av svg{width:22px;height:22px}
+#kimBubble.hide{display:none}
+@media (max-width:760px){#kimBubble{right:12px;bottom:92px}.kroi b{font-size:17px}}
+</style>`);
+
+  const KIM_SVG = `<svg viewBox="0 0 24 24" fill="none"><rect x="4" y="7" width="16" height="12" rx="4" fill="#fff"/><circle cx="9.5" cy="13" r="1.6" fill="#E8453C"/><circle cx="14.5" cy="13" r="1.6" fill="#E8453C"/><path d="M12 3.5V7" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="3.2" r="1.4" fill="#fff"/></svg>`;
+  const SEND_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>`;
+
+  const T = {
+    fr:{ name:"Kim · agent IA de Shtwessie", live:"En ligne · n8n × Claude", demo:"Mode démo · réponses préparées",
+      hello:()=>{ const h=new Date().getHours(); return `${h<6||h>=18?"Bonsoir":"Bonjour"} 👋 Je suis Kim, l'agent IA de Shtwessie. Je tourne sur un workflow n8n qu'elle a construit, avec Claude.\n\nEn 1 minute, je peux estimer ce que l'automatisation vous ferait gagner. Vous êtes…`; },
+      who:["Dirigeant·e / PME : j'ai un processus à automatiser","Recruteur·se","Je découvre le portfolio"],
+      q1:"Parfait. Quelle tâche vous fait perdre le plus de temps ?", c1:["Factures fournisseurs","Contrats et onboarding RH","Relances clients","Saisie dans le CRM","Reporting mensuel"],
+      q2:"Elle revient combien de fois par mois, environ ?", c2:["10","50","200","500"],
+      q3:"Et combien de minutes à chaque fois ?", c3:["5","15","30","60"],
+      q4:"Dernière question : quels outils utilisez-vous aujourd'hui pour ça ?", c4:["Gmail / Outlook","Excel / Google Sheets","Un ERP (Odoo, Sage…)","Un CRM (HubSpot…)","Rien de particulier"],
+      num:"Indiquez un nombre (ou cliquez sur une proposition).",
+      work:"Je prépare votre diagnostic…",
+      gains:["heures gagnées par an","économisés par an","jours de travail libérés"],
+      hyp:`Estimation : ${AUTO*100} % du temps automatisé, coût chargé de ${RATE} €/h. À affiner ensemble.`,
+      next:"Voulez-vous recevoir cet audit par e-mail ? Le workflow de Shtwessie vous l'envoie en moins d'une minute, et c'est la meilleure démo de ce qu'elle sait faire.",
+      cta:["📩 Recevoir l'audit par e-mail","📅 Réserver un appel","Voir son profil Malt"],
+      fNom:"Prénom et nom", fMail:"E-mail professionnel", fOrg:"Entreprise (facultatif)", fSend:"Envoyer mon audit",
+      fConsent:"J'accepte que mes réponses soient utilisées pour m'envoyer cet audit et être recontacté·e par Shtwessie. Aucun autre usage.",
+      fErr:"Indiquez un e-mail valide et cochez la case.",
+      sent:"C'est parti ✅ Le workflow n8n de Shtwessie vient de rédiger et d'envoyer votre audit. Regardez votre boîte mail (et les spams, au cas où). Shtwessie a reçu une alerte et reviendra vers vous.",
+      sentDemo:"Le workflow n'est pas joignable pour l'instant, alors j'ouvre un e-mail pré-rempli vers Shtwessie avec votre diagnostic. Il ne reste qu'à l'envoyer.",
+      cal:"Le calendrier est sur le bureau, à gauche : choisissez un jour en bleu et un créneau. Vous pouvez aussi écrire directement : Shtwessiedumay@icloud.com",
+      rec:"Bienvenue ! Voici l'essentiel : Shtwessie est Process Automation Specialist (n8n, agents IA Claude, intégrations ERP/CRM), avec une base solide en paie, administration du personnel et facturation.\n\nCollez le texte de votre offre ici : je vous dis en quoi son profil y répond.",
+      recC:["Voir le CV","Version PDF","Projets phares"],
+      vis:"Avec plaisir ! Le plus spectaculaire : Agent_Live, où ses workflows s'exécutent sous vos yeux. Sinon, je réponds à vos questions.",
+      visC:["▶ Lancer Agent_Live","Projets phares","Ses compétences"],
+      ph:"Écrivez votre message…", foot:"Agent IA · peut se tromper · vos messages sont traités par n8n et Claude (Anthropic)",
+      again:"Faire un autre diagnostic", err:"Je n'ai pas pu joindre mon workflow. Vous pouvez écrire directement à Shtwessie : Shtwessiedumay@icloud.com",
+      bubble:"Estimez vos gains en 1 min" },
+    en:{ name:"Kim · Shtwessie's AI agent", live:"Online · n8n × Claude", demo:"Demo mode · prepared answers",
+      hello:()=>`Hi 👋 I'm Kim, Shtwessie's AI agent. I run on an n8n workflow she built, with Claude.\n\nIn one minute I can estimate what automation would save you. You are…`,
+      who:["A business owner: I have a process to automate","A recruiter","Just looking around"],
+      q1:"Great. Which task costs you the most time?", c1:["Supplier invoices","HR contracts & onboarding","Client payment reminders","CRM data entry","Monthly reporting"],
+      q2:"Roughly how many times a month?", c2:["10","50","200","500"],
+      q3:"And how many minutes each time?", c3:["5","15","30","60"],
+      q4:"Last question: which tools do you use for it today?", c4:["Gmail / Outlook","Excel / Google Sheets","An ERP (Odoo, Sage…)","A CRM (HubSpot…)","Nothing specific"],
+      num:"Please enter a number (or pick a suggestion).",
+      work:"Preparing your diagnosis…",
+      gains:["hours saved per year","saved per year","working days freed"],
+      hyp:`Estimate: ${AUTO*100}% of the time automated, loaded cost €${RATE}/h. To refine together.`,
+      next:"Want this audit by e-mail? Shtwessie's workflow sends it in under a minute — the best demo of what she does.",
+      cta:["📩 Get the audit by e-mail","📅 Book a call","See her Malt profile"],
+      fNom:"Full name", fMail:"Work e-mail", fOrg:"Company (optional)", fSend:"Send my audit",
+      fConsent:"I agree that my answers are used to send me this audit and for Shtwessie to contact me. No other use.",
+      fErr:"Please enter a valid e-mail and tick the box.",
+      sent:"Done ✅ Shtwessie's n8n workflow just wrote and sent your audit. Check your inbox (and spam, just in case). Shtwessie got an alert and will get back to you.",
+      sentDemo:"The workflow can't be reached right now, so I'm opening a pre-filled e-mail to Shtwessie with your diagnosis. Just press send.",
+      cal:"The calendar is on the desktop, on the left: pick a blue day and a slot. You can also write to Shtwessiedumay@icloud.com",
+      rec:"Welcome! In short: Shtwessie is a Process Automation Specialist (n8n, Claude AI agents, ERP/CRM integrations) with a solid background in payroll, personnel administration and invoicing.\n\nPaste your job description here and I'll tell you how her profile fits.",
+      recC:["See the résumé","PDF version","Featured projects"],
+      vis:"With pleasure! The most impressive: Agent_Live, where her workflows run in front of you. Or ask me anything.",
+      visC:["▶ Launch Agent_Live","Featured projects","Her skills"],
+      ph:"Type your message…", foot:"AI agent · may make mistakes · messages are processed by n8n and Claude (Anthropic)",
+      again:"Run another diagnosis", err:"I couldn't reach my workflow. You can write to Shtwessie directly: Shtwessiedumay@icloud.com",
+      bubble:"Estimate your gains in 1 min" }
+  };
+
+  /* ---------- Réponses de secours (mode démo) ---------- */
+  const DEMO_FLOWS = [
+    { k:/factur|invoice|fournisseur|supplier/i, fr:{titre:"Réception et contrôle automatiques des factures fournisseurs",resume:"Chaque facture reçue par e-mail est lue par Claude, contrôlée (montant, SIRET, RIB, doublons) puis rangée et ajoutée au suivi des paiements. Seules les anomalies remontent à un humain.",etapes:[["Gmail","Réception de la facture",0],["Claude","Extraction des données clés",1],["n8n","Contrôles SIRET, RIB, doublons",0],["Drive","Renommage et classement",0],["Sheets / ERP","Ajout au suivi des paiements",0],["Gmail","Alerte si anomalie",0]],vigilance:"Les factures non conformes passent par une validation humaine avant paiement."},
+      en:{titre:"Automatic supplier invoice intake and checks",resume:"Each invoice received by e-mail is read by Claude, checked (amount, company ID, bank details, duplicates), filed and added to payment tracking. Only anomalies reach a human.",etapes:[["Gmail","Invoice received",0],["Claude","Key data extraction",1],["n8n","ID, bank and duplicate checks",0],["Drive","Renamed and filed",0],["Sheets / ERP","Added to payment tracking",0],["Gmail","Alert on anomaly",0]],vigilance:"Non-compliant invoices go through human approval before payment."} },
+    { k:/contrat|rh|onboard|embauche|hr|hire|salari/i, fr:{titre:"Génération des contrats et onboarding RH par agent IA",resume:"À partir de la fiche du nouveau salarié, un agent Claude rédige le contrat conforme à votre convention, prépare les pièces à fournir et range le dossier. Les échéances sont suivies automatiquement.",etapes:[["Formulaire","Fiche du nouveau salarié",0],["Claude","Rédaction du contrat conforme",1],["Docs","Contrat depuis votre modèle",0],["Humain","Relecture et signature",0],["Gmail","Envoi et liste des pièces",0],["Sheets","Registre et alertes d'échéance",0]],vigilance:"Aucun contrat n'est envoyé sans relecture humaine."},
+      en:{titre:"AI-drafted contracts and HR onboarding",resume:"From the new hire's record, a Claude agent drafts a contract compliant with your collective agreement, lists the required documents and files everything. Deadlines are tracked automatically.",etapes:[["Form","New hire record",0],["Claude","Compliant contract drafting",1],["Docs","Contract from your template",0],["Human","Review and signature",0],["Gmail","Sent with document list",0],["Sheets","Register and deadline alerts",0]],vigilance:"No contract is sent without human review."} },
+    { k:/relance|remind|impay|paiement|payment|dso/i, fr:{titre:"Relances clients intelligentes et rapprochement des paiements",resume:"Les factures échues sont détectées chaque jour, Claude rédige une relance adaptée à l'historique du client et les paiements reçus soldent automatiquement les factures.",etapes:[["Planificateur","Contrôle quotidien",0],["ERP","Factures échues",0],["Claude","Relance selon l'historique",1],["Gmail","Envoi J+7 / J+15 / J+30",0],["Banque","Rapprochement des paiements",0],["Sheets","Suivi du DSO",0]],vigilance:"Le statut de la facture est revérifié juste avant chaque envoi."},
+      en:{titre:"Smart client reminders and payment matching",resume:"Overdue invoices are detected daily, Claude writes a reminder suited to the client's history and incoming payments settle invoices automatically.",etapes:[["Scheduler","Daily check",0],["ERP","Overdue invoices",0],["Claude","Reminder based on history",1],["Gmail","Sent at D+7 / D+15 / D+30",0],["Bank","Payment matching",0],["Sheets","DSO tracking",0]],vigilance:"Invoice status is re-checked right before every send."} },
+    { k:/crm|lead|prospect|hubspot|saisie|entry/i, fr:{titre:"Qualification et saisie automatique des leads dans le CRM",resume:"Chaque demande entrante est lue par Claude, scorée et créée dans le CRM sans doublon, puis attribuée au bon commercial avec une alerte.",etapes:[["Formulaire / e-mail","Demande entrante",0],["Claude","Extraction et score",1],["CRM","Recherche de doublon",0],["CRM","Contact et opportunité",0],["n8n","Attribution au commercial",0],["Slack","Alerte et brouillon de réponse",0]],vigilance:"Sous un score défini, un humain décide de la suite."},
+      en:{titre:"Automatic lead qualification and CRM entry",resume:"Each incoming request is read by Claude, scored and created in the CRM without duplicates, then assigned to the right rep with an alert.",etapes:[["Form / e-mail","Incoming request",0],["Claude","Extraction and score",1],["CRM","Duplicate check",0],["CRM","Contact and deal",0],["n8n","Assign to a rep",0],["Slack","Alert and draft reply",0]],vigilance:"Below a set score, a human decides what happens next."} }
+  ];
+  const DEMO_DEFAULT = { fr:{titre:"Automatisation de votre processus avec n8n et un agent IA",resume:"Le workflow récupère les informations à la source, Claude lit et structure ce qui doit l'être, puis les données sont contrôlées et envoyées vers vos outils, avec un suivi automatique.",etapes:[["Déclencheur","E-mail, formulaire ou planning",0],["Claude","Lecture et structuration",1],["n8n","Règles et contrôles",0],["Vos outils","Mise à jour automatique",0],["Gmail / Slack","Notification",0],["Sheets","Journal et indicateurs",0]],vigilance:"Les cas ambigus sont soumis à une validation humaine."},
+    en:{titre:"Automating your process with n8n and an AI agent",resume:"The workflow pulls data at the source, Claude reads and structures what needs it, then data is checked and pushed to your tools with automatic tracking.",etapes:[["Trigger","E-mail, form or schedule",0],["Claude","Reading and structuring",1],["n8n","Rules and checks",0],["Your tools","Automatic update",0],["Gmail / Slack","Notification",0],["Sheets","Log and KPIs",0]],vigilance:"Ambiguous cases go to human approval."} };
+  const FAQ = [
+    [/tarif|prix|co[uû]t|price|rate|budget/i, {fr:"Les tarifs dépendent du périmètre : un audit, un workflow ou un agent IA complet ne demandent pas le même temps. Le plus simple : un diagnostic ici, puis un appel de 20 minutes avec Shtwessie pour chiffrer précisément. Je lance le diagnostic ?",en:"Pricing depends on scope: an audit, a workflow or a full AI agent take different amounts of time. Easiest: a quick diagnosis here, then a 20-minute call with Shtwessie for a precise quote. Shall I start the diagnosis?"}],
+    [/dispo|quand|when|available|délai|delay/i, {fr:"Shtwessie travaille en freelance, sur site en Île-de-France ou à distance. Pour ses disponibilités exactes, le calendrier du bureau (à gauche) permet de demander un créneau directement.",en:"Shtwessie works freelance, on site in the Paris region or remotely. For exact availability, use the desktop calendar (left) to request a slot."}],
+    [/n8n|make|zapier|outil|tool|stack/i, {fr:"Sa stack : n8n (son outil principal), Make, Claude via l'API Anthropic, Google Workspace, Notion, Slack, et côté gestion Odoo, HubSpot, Qonto, Pennylane et Sage. Elle choisit l'outil selon ce que vous utilisez déjà.",en:"Her stack: n8n (main tool), Make, Claude via the Anthropic API, Google Workspace, Notion, Slack, plus Odoo, HubSpot, Qonto, Pennylane and Sage. She picks tools based on what you already use."}],
+    [/rgpd|gdpr|donn[ée]es|data|s[ée]curit/i, {fr:"Les automatisations tournent dans vos outils, avec des accès limités au strict nécessaire, et un contrôle humain sur les décisions sensibles (contrats, paiements). Shtwessie documente chaque workflow.",en:"Automations run inside your tools with least-privilege access and human checks on sensitive decisions (contracts, payments). Shtwessie documents every workflow."}],
+    [/s[ée]curit[ée] priv|idcc|carte pro|agent de s/i, {fr:"C'est son étude de cas phare : un agent IA qui rédige les contrats conformes à la convention IDCC 1351, range les dossiers RH et alerte avant l'expiration des cartes professionnelles. Vous pouvez la voir tourner dans Agent_Live.",en:"Her flagship case: an AI agent that drafts IDCC 1351-compliant contracts, files HR records and alerts before professional licences expire. You can watch it run in Agent_Live."}]
+  ];
+  function demoReply(text){
+    const f = FAQ.find(([re]) => re.test(text));
+    if(f) return f[1][LANG];
+    return LANG==="fr" ? "Bonne question ! Je suis en mode démo pour l'instant, donc je réponds surtout sur les services de Shtwessie : automatisation n8n, agents IA, intégrations ERP/CRM. Le mieux : lancer un diagnostic ou lui écrire à Shtwessiedumay@icloud.com."
+                       : "Good question! I'm in demo mode right now, so I mostly answer about Shtwessie's services: n8n automation, AI agents, ERP/CRM integrations. Best: run a diagnosis or write to Shtwessiedumay@icloud.com.";
+  }
+
+  /* ---------- État ---------- */
+  const K = { step:"start", d:{}, msgs:[], live:null, busy:false, flow:null, html:"" };
+
+  async function call(payload){
+    const ctl = new AbortController(); const to = setTimeout(()=>ctl.abort(), 30000);
+    try{
+      const r = await fetch(AGENT_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({...payload, lang:LANG}), signal:ctl.signal });
+      clearTimeout(to);
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j){ if(r.status===429 && j?.error){ setLive(true); return {limit:j.error}; } throw new Error(r.status); }
+      setLive(true); return j;
+    }catch(e){ clearTimeout(to); setLive(false); return null; }
+  }
+  function setLive(v){ K.live = v; const s = document.querySelector(".kim-st"); if(s){ s.classList.remove("wait"); s.classList.toggle("demo", !v); s.lastChild.textContent = v ? T[LANG].live : T[LANG].demo; } }
+
+  /* ---------- Rendu ---------- */
+  function renderKim(){
+    const t = T[LANG];
+    return `<div class="kim">
+      <div class="kim-head"><span class="kim-av">${KIM_SVG}</span><div><b>${esc(t.name)}</b><span class="kim-st${K.live===false?" demo":K.live===null?" wait":""}"><i></i>${esc(K.live===false?t.demo:K.live===null?"n8n × Claude":t.live)}</span></div></div>
+      <div class="kim-log" id="kimLog">${K.html}</div>
+      <form class="kin" id="kimForm" autocomplete="off"><input id="kimIn" placeholder="${esc(t.ph)}" maxlength="1200" aria-label="${esc(t.ph)}"><button aria-label="Envoyer">${SEND_SVG}</button></form>
+      <div class="kfoot">${esc(t.foot)}</div></div>`;
+  }
+  const log = () => document.getElementById("kimLog");
+  function push(html){ K.html += html; const l = log(); if(l){ l.insertAdjacentHTML("beforeend", html); l.scrollTop = l.scrollHeight; } }
+  function say(text){ push(`<div class="kb a">${esc(text)}</div>`); K.msgs.push({role:"assistant", content:text}); }
+  function me(text){ push(`<div class="kb u">${esc(text)}</div>`); K.msgs.push({role:"user", content:text}); }
+  function chips(list, kind){ push(`<div class="kchips" data-kc="${kind}">${list.map((c,i)=>`<button type="button" class="${c.p?"prim":""}" data-k="${kind}" data-v="${esc(c.v??c)}">${esc(c.l??c)}</button>`).join("")}</div>`); }
+  function clearChips(){ document.querySelectorAll(".kim-log .kchips").forEach(c=>c.remove()); K.html = K.html.replace(/<div class="kchips"[\s\S]*?<\/div>/g, ""); }
+  function typing(on){ const l = log(); if(!l) return; l.querySelector(".ktyping")?.remove(); if(on){ l.insertAdjacentHTML("beforeend", `<div class="ktyping"><span></span><span></span><span></span></div>`); l.scrollTop = l.scrollHeight; } }
+  const wait = ms => new Promise(r=>setTimeout(r, ms));
+  async function kimSays(text, ms){ typing(true); await wait(ms || Math.min(1400, 400 + text.length*6)); typing(false); say(text); }
+
+  async function start(){
+    K.step = "who"; await kimSays(T[LANG].hello(), 700);
+    chips(T[LANG].who.map((l,i)=>({l, v:String(i)})), "who");
+  }
+
+  async function onChip(kind, v, label){
+    if(K.busy) return; clearChips(); me(label);
+    const t = T[LANG];
+    if(kind==="who"){
+      if(v==="0"){ K.step="q1"; await kimSays(t.q1); chips(t.c1,"q1"); }
+      else if(v==="1"){ K.step="recruiter"; await kimSays(t.rec); chips(t.recC.map((l,i)=>({l, v:"r"+i})),"nav"); }
+      else { K.step="free"; await kimSays(t.vis); chips(t.visC.map((l,i)=>({l, v:"v"+i})),"nav"); }
+      return;
+    }
+    if(kind==="nav"){
+      const map = {r0:()=>openApp("cv"), r1:()=>document.getElementById("pdfBtn")?.click(), r2:()=>openApp("flagship"), v0:()=>{ openApp("agent"); setTimeout(()=>document.querySelector("[data-sim-run]")?.click(), 400); }, v1:()=>openApp("flagship"), v2:()=>openApp("skills"),
+        c0:()=>showForm(), c1:async()=>{ await kimSays(t.cal); document.getElementById("w-cal")?.scrollIntoView({behavior:"smooth"}); }, c2:()=>window.open("https://www.malt.fr/profile/shtwessiedumay","_blank","noopener"), again:()=>{ K.d={}; K.step="q1"; kimSays(t.q1).then(()=>chips(t.c1,"q1")); } };
+      map[v]?.(); return;
+    }
+    answer(kind, v);
+  }
+
+  async function answer(step, v){
+    const t = T[LANG];
+    if(step==="q1"){ K.d.tache = v; K.step="q2"; await kimSays(t.q2); chips(t.c2,"q2"); }
+    else if(step==="q2"){ const n = parseInt(String(v).replace(/\D/g,""),10); if(!n){ await kimSays(t.num); chips(t.c2,"q2"); return; } K.d.volume = n; K.step="q3"; await kimSays(t.q3); chips(t.c3,"q3"); }
+    else if(step==="q3"){ const n = parseInt(String(v).replace(/\D/g,""),10); if(!n){ await kimSays(t.num); chips(t.c3,"q3"); return; } K.d.minutes = n; K.step="q4"; await kimSays(t.q4); chips(t.c4,"q4"); }
+    else if(step==="q4"){ K.d.outils = v; K.step="result"; await diagnose(); }
+  }
+
+  async function diagnose(){
+    const t = T[LANG]; K.busy = true;
+    const h = Math.round(K.d.volume*12*K.d.minutes*AUTO/60), eur = Math.round(h*RATE), days = Math.round(h/7);
+    K.d.heures_an = h; K.d.euros_an = eur;
+    typing(true);
+    const [res] = await Promise.all([ call({mode:"diag", diag:K.d}), wait(1600) ]);
+    typing(false);
+    let flow = res?.ok && res.diag ? res.diag : null;
+    if(!flow){ const m = (DEMO_FLOWS.find(f=>f.k.test(K.d.tache)) || {fr:DEMO_DEFAULT.fr, en:DEMO_DEFAULT.en})[LANG]; flow = {...m, etapes:m.etapes.map(([outil,action,ia])=>({outil,action,ia:!!ia}))}; }
+    K.flow = flow;
+    const fmt = n => n.toLocaleString(LANG==="fr"?"fr-FR":"en-GB");
+    push(`<div class="kcard"><h4>${esc(flow.titre)}</h4><p class="kres">${esc(flow.resume)}</p>
+      <div class="kflow">${flow.etapes.map((e,i)=>`${i?'<span class="karr">→</span>':""}<span class="kn${e.ia?" ia":""}" style="animation-delay:${i*0.18}s"><b>${esc(e.outil)}</b>${esc(e.action)}</span>`).join("")}</div>
+      <div class="kroi"><div><b>${fmt(h)} h</b><span>${t.gains[0]}</span></div><div><b>${fmt(eur)} €</b><span>${t.gains[1]}</span></div><div><b>${fmt(days)}</b><span>${t.gains[2]}</span></div></div>
+      ${flow.vigilance?`<p class="kvig">🛡 ${esc(flow.vigilance)}</p>`:""}<p class="khyp">${esc(t.hyp)}</p></div>`);
+    K.msgs.push({role:"assistant", content:`[Diagnostic] ${flow.titre} — ${flow.resume} Gain estimé : ${h} h/an, ${eur} €/an.`});
+    K.busy = false;
+    await kimSays(t.next, 900);
+    chips([{l:t.cta[0], v:"c0", p:1},{l:t.cta[1], v:"c1"},{l:t.cta[2], v:"c2"},{l:t.again, v:"again"}], "nav");
+  }
+
+  function showForm(){
+    const t = T[LANG];
+    push(`<div class="kcard"><form class="kform" id="kimLead">
+      <input name="nom" placeholder="${esc(t.fNom)}" maxlength="80">
+      <input name="email" type="email" placeholder="${esc(t.fMail)}" maxlength="120" required>
+      <input name="entreprise" placeholder="${esc(t.fOrg)}" maxlength="120">
+      <label><input type="checkbox" name="consent"> ${esc(t.fConsent)}</label>
+      <span class="kerr" hidden>${esc(t.fErr)}</span>
+      <button type="submit">${esc(t.fSend)}</button></form></div>`);
+  }
+  async function sendLead(form){
+    const t = T[LANG]; const f = new FormData(form);
+    const email = String(f.get("email")||"").trim(), consent = !!f.get("consent");
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || !consent){ form.querySelector(".kerr").hidden = false; return; }
+    const btn = form.querySelector("button"); btn.disabled = true; btn.textContent = "…";
+    const wf = K.flow ? `${K.flow.titre}. ${K.flow.etapes.map(e=>`${e.outil} : ${e.action}`).join(" → ")}` : "";
+    const payload = { mode:"lead", nom:String(f.get("nom")||""), email, entreprise:String(f.get("entreprise")||""), consent:true, diag:K.d, workflow:wf };
+    typing(true); const r = await call(payload); typing(false);
+    form.closest(".kcard").remove(); K.html = K.html.replace(/<div class="kcard"><form class="kform"[\s\S]*?<\/form><\/div>/, "");
+    if(r?.ok){ say(t.sent); }
+    else if(r?.limit){ say(r.limit); }
+    else {
+      say(t.sentDemo);
+      const body = `Bonjour Shtwessie,\n\nJe viens de faire le diagnostic sur votre portfolio.\n\nTâche : ${K.d.tache}\nVolume : ${K.d.volume} fois/mois · ${K.d.minutes} min\nOutils : ${K.d.outils}\nGain estimé : ${K.d.heures_an} h/an · ${K.d.euros_an} €/an\nWorkflow proposé : ${wf}\n\n${payload.nom}\n${payload.entreprise}\n${email}`;
+      location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent("Diagnostic automatisation — portfolio")}&body=${encodeURIComponent(body)}`;
+    }
+  }
+
+  async function onText(text){
+    text = text.trim(); if(!text || K.busy) return;
+    clearChips();
+    const st = K.step;
+    if(["q1","q2","q3","q4"].includes(st)){ me(text); return answer(st, text); }
+    me(text); K.busy = true; typing(true);
+    const prompt = st==="recruiter" && text.length > 120 ? [...K.msgs.slice(0,-1), {role:"user", content:`Voici une offre d'emploi. Explique en 4 à 6 phrases, honnêtement, en quoi le profil de Shtwessie y répond et ce qui serait à vérifier en entretien :\n\n${text}`}] : K.msgs;
+    const [r] = await Promise.all([ call({mode:"chat", messages:prompt.filter(m=>!m.content.startsWith("[Diagnostic]")).concat([]) }), wait(700) ]);
+    typing(false); K.busy = false;
+    if(r?.ok && r.reply) say(r.reply);
+    else if(r?.limit) say(r.limit);
+    else say(demoReply(text));
+  }
+
+  /* ---------- Intégration au bureau ---------- */
+  ICON.kim = ios("kim", {fill:"url(#g-kim)", defs:lg("g-kim","#FF8A5B","#E8453C")},
+    `<path d="M12 16a6 6 0 0 1 6-6h16a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H22l-7 6v-6.4A6 6 0 0 1 12 28z" fill="#fff"/><circle cx="20" cy="22" r="2.4" fill="#E8453C"/><circle cx="26" cy="22" r="2.4" fill="#E8453C"/><circle cx="32" cy="22" r="2.4" fill="#E8453C"/>`);
+  UI.fr.apps.kim = "Kim · agent IA"; UI.en.apps.kim = "Kim · AI agent";
+  UI.fr.wt.kim = "Kim — agent d'accueil (n8n × Claude)"; UI.en.wt.kim = "Kim — welcome agent (n8n × Claude)";
+  APPS.kim = { render: renderKim, w:460, h:640 };
+  ORDER.splice(ORDER.indexOf("projects"), 0, "kim");
+
+  const _ow = openWin;
+  openWin = function(id, opts){
+    const fresh = !WIN[id];
+    if(id==="kim" && fresh && !isMobile()){
+      _ow(id, opts);
+      const el = WIN.kim.el, w = 460, h = Math.min(640, innerHeight-150);
+      Object.assign(el.style, {width:w+"px", height:h+"px", left:Math.max(12, innerWidth - w - 190)+"px", top:"52px"});
+    } else _ow(id, opts);
+    if(id==="kim"){ document.getElementById("kimBubble")?.classList.add("hide"); if(fresh && K.step==="start") start(); const l = log(); if(l) l.scrollTop = l.scrollHeight; }
+  };
+  const _rw = refreshWin;
+  refreshWin = function(id){ _rw(id); if(id==="kim"){ const l = log(); if(l) l.scrollTop = l.scrollHeight; } };
+  const _cw = closeWin;
+  closeWin = function(id){ _cw(id); if(id==="kim") document.getElementById("kimBubble")?.classList.remove("hide"); };
+
+  document.addEventListener("click", e=>{
+    const c = e.target.closest("[data-k]"); if(c && c.closest(".kim")){ e.stopPropagation(); onChip(c.dataset.k, c.dataset.v, c.textContent); }
+  }, true);
+  document.addEventListener("submit", e=>{
+    if(e.target.id==="kimForm"){ e.preventDefault(); const i = document.getElementById("kimIn"); const v = i.value; i.value = ""; onText(v); }
+    if(e.target.id==="kimLead"){ e.preventDefault(); sendLead(e.target); }
+  });
+
+  // Bulle d'appel + ouverture automatique à la première visite
+  document.body.insertAdjacentHTML("beforeend", `<button id="kimBubble" type="button" data-app="kim"><span class="kim-av">${KIM_SVG}</span><span id="kimBubbleTxt"></span></button>`);
+  const bubbleTxt = () => { const b = document.getElementById("kimBubbleTxt"); if(b) b.textContent = T[LANG].bubble; };
+  const _sl = setLang;
+  setLang = function(l){ _sl(l); bubbleTxt(); };
+  bubbleTxt();
+  let seen = false; try { seen = sessionStorage.getItem("kimos-kim") === "1"; sessionStorage.setItem("kimos-kim","1"); } catch(e){}
+  if(!seen && !/[?&]nokim/.test(location.search)) setTimeout(()=>{ if(!WIN.kim) openApp("kim"); }, isMobile() ? 2200 : 1400);
+
+  // Le bouton principal de la note ouvre Kim
+  const _note2 = renderNote;
+  renderNote = function(){ _note2(); const b = document.querySelector('#w-note [data-open="projects"]'); if(b){ b.dataset.open = "kim"; b.textContent = LANG==="fr" ? "Parler à mon agent IA" : "Talk to my AI agent"; } };
+  renderNote();
+
+  // Terminal
+  TERM_TXT.fr.help += "\n  <span class='acc'>kim</span>         parler à l'agent d'accueil";
+  TERM_TXT.en.help += "\n  <span class='acc'>kim</span>         talk to the welcome agent";
+  const _rc2 = runCmd;
+  runCmd = function(raw){ if(raw.trim().toLowerCase()==="kim"){ const out = $("#termOut"); if(out) out.insertAdjacentHTML("beforeend", `<span class="dim">visitor@kim-os:~$</span> kim\n${TERM_TXT[LANG].opened}\n`); openApp("kim"); return; } _rc2(raw); };
+  window.KIM = K;
+})();
+
+
 /* ---------- Init ---------- */
 document.querySelectorAll('[data-portrait]').forEach(i=>i.src=PORTRAIT);
 setLang(LANG); tick();

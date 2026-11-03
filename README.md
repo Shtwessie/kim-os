@@ -5,6 +5,7 @@ Portfolio interactif en forme de bureau d'ordinateur (style iOS) : **workflows n
 🔗 **En ligne : [shtwessie.github.io/kim-os](https://shtwessie.github.io/kim-os/)**
 
 ## À voir en priorité
+- **Kim, l'agent d'accueil** : il accueille le visiteur, fait un diagnostic d'automatisation avec estimation du gain, et envoie l'audit par e-mail via un workflow n8n × Claude (`n8n/`, voir `n8n/LISEZMOI.md`).
 - **Agent_Live** : simulation animée de trois workflows n8n × Claude, avec journal d'exécution et sortie JSON de l'agent.
 - **A01 — Agent IA de gestion RH (sécurité privée, IDCC 1351)** : génération de contrats conformes, classement des dossiers RH, suivi des cartes professionnelles. Mission réelle, société anonymisée.
 - **D01 — Routage intelligent des leads (HubSpot)** et **D02 — Synchronisation Odoo ↔ Qonto ↔ Pennylane** : prototypes de démonstration sur données fictives, signalés comme tels.
