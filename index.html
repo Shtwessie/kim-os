@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIM-OS Portfolio</title>
+<title>Shtwessie D. — Process Automation Specialist · n8n · Agents IA</title>
+<meta name="description" content="Portfolio de Shtwessie D., Process Automation Specialist : workflows n8n, agents IA Claude, intégrations ERP/CRM, automatisation RH et finance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
@@ -2983,6 +2984,484 @@ renderIcons = function(){
     });
   });
 };
+
+/* =====================================================================
+   KIM-OS · Repositionnement « Process Automation Specialist » (nov. 2026)
+   Nouveaux dossiers : A01 (mission réelle, sécurité privée), D01 et D02
+   (prototypes de démonstration, signalés comme tels), app « Agent_Live »
+   (simulation animée des workflows) et CV technique.
+   ===================================================================== */
+(function(){
+  /* ---------- Styles ---------- */
+  document.head.insertAdjacentHTML("beforeend", `<style>
+.tag.demo{background:rgba(124,108,255,.12);color:#5B4BD6}
+.ia-box{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ia-box > div{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface-2)}
+.ia-box h4{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.ia-box ul{padding-left:16px;font-size:13px}
+.ia-box li{margin:3px 0}
+.roi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.roi-grid div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.roi-grid b{display:block;font-size:18px;font-family:var(--serif);color:var(--ink);line-height:1.15}
+.roi-grid span{font-size:11px;color:var(--muted);line-height:1.3;display:block}
+.roi-note{font-size:11px;color:var(--muted);margin-top:8px}
+.sim-cta{margin-top:12px}
+@media (max-width:760px){.ia-box{grid-template-columns:1fr}}
+/* Agent_Live */
+.sim{display:grid;grid-template-columns:230px 1fr;min-height:100%;background:#0E1117;color:#E6E8EE;font-size:13px}
+.sim-side{background:#151924;border-right:1px solid #262B38;padding:14px 10px;overflow:auto}
+.sim-side h4{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8B93A7;margin:4px 8px 10px}
+.sim-side button{display:block;width:100%;text-align:left;padding:10px 10px;border-radius:9px;color:#C9CEDA;margin-bottom:4px;line-height:1.3}
+.sim-side button small{display:block;color:#7D869B;font-size:11px;margin-top:2px}
+.sim-side button.on{background:rgba(255,109,90,.12);color:#fff}
+.sim-side .sim-disc{font-size:11px;color:#7D869B;margin:14px 8px 0;line-height:1.45}
+.sim-main{display:flex;flex-direction:column;min-width:0}
+.sim-top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #262B38;flex-wrap:wrap}
+.sim-top h3{font-size:15px;font-weight:700;margin-right:auto}
+.sim-run{background:#FF6D5A;color:#fff;font-weight:700;border-radius:8px;padding:8px 14px;font-size:12.5px}
+.sim-run[disabled]{opacity:.55;cursor:default}
+.sim-stat{font-family:var(--mono);font-size:11.5px;color:#8B93A7}
+.sim-canvas{padding:18px 16px;overflow:auto;background-image:radial-gradient(#232836 1px,transparent 1px);background-size:16px 16px}
+.sim-flow{display:flex;flex-wrap:wrap;gap:10px 0;align-items:center}
+.sim-node{position:relative;width:132px;min-height:74px;background:#1B2030;border:1.5px solid #30364A;border-radius:12px;padding:9px 10px;transition:border-color .25s,box-shadow .25s,transform .25s}
+.sim-node .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7D869B;font-weight:700}
+.sim-node .n{font-size:12px;font-weight:600;line-height:1.3;margin-top:3px;color:#E6E8EE}
+.sim-node.ai{border-color:#5B4BD6}
+.sim-node.ai .k{color:#A99CFF}
+.sim-node.run{border-color:#FF6D5A;box-shadow:0 0 0 4px rgba(255,109,90,.18);transform:translateY(-2px)}
+.sim-node.done{border-color:#2FBF71}
+.sim-node.done::after{content:"✓";position:absolute;top:6px;right:8px;color:#2FBF71;font-weight:800;font-size:12px}
+.sim-link{width:22px;height:2px;background:#30364A;flex:none;transition:background .25s}
+.sim-link.done{background:#2FBF71}
+.sim-low{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #262B38;flex:1;min-height:180px}
+.sim-log,.sim-out{padding:12px 16px;font-family:var(--mono);font-size:11.5px;line-height:1.6;overflow:auto;white-space:pre-wrap}
+.sim-log{border-right:1px solid #262B38;color:#AEB5C6}
+.sim-log .t{color:#6B7489}
+.sim-log .ok{color:#2FBF71}
+.sim-log .warn{color:#FFB547}
+.sim-out{color:#D7DBE6}
+.sim-out .h{color:#A99CFF;font-weight:700}
+.sim-out .key{color:#7FC8FF}
+.sim-kpi{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-family:var(--sans)}
+.sim-kpi span{background:#1B2030;border:1px solid #30364A;border-radius:8px;padding:5px 9px;font-size:11.5px;color:#E6E8EE}
+@media (max-width:760px){.sim-link{display:none}.sim-flow{gap:8px}.sim{grid-template-columns:1fr}.sim-side{border-right:0;border-bottom:1px solid #262B38}.sim-low{grid-template-columns:1fr}.sim-log{border-right:0;border-bottom:1px solid #262B38}}
+</style>`);
+
+  /* ---------- Positionnement ---------- */
+  Object.assign(UI.fr, {
+    role:"Process Automation Specialist · n8n · ERP/CRM · Agents IA",
+    pitch:"Je conçois des workflows n8n et des agents IA (Claude) qui prennent en charge les tâches administratives, RH et financières répétitives : génération de contrats, contrôle de conformité, synchronisation ERP/CRM, facturation. Je viens du métier, et c'est ce qui rend mes automatisations justes.",
+    st3:"workflows n8n en production",
+    exNote:"Chaque dossier indique sa nature : mission réalisée, processus récurrent ou prototype de démonstration (données fictives). Ouvrez Agent_Live pour voir les workflows s'exécuter.",
+    printName:"Portfolio — Shtwessie D. · Process Automation"
+  });
+  Object.assign(UI.en, {
+    role:"Process Automation Specialist · n8n · ERP/CRM · AI agents",
+    pitch:"I design n8n workflows and AI agents (Claude) that take over repetitive admin, HR and finance work: contract generation, compliance checks, ERP/CRM sync, invoicing. I come from the business side, which is why my automations fit the real process.",
+    exNote:"Each file states what it is: delivered mission, recurring process or demo prototype (fictional data). Open Agent_Live to watch the workflows run.",
+    printName:"Portfolio — Shtwessie D. · Process Automation"
+  });
+  UI.fr.kind.demo = "Prototype · démo"; UI.en.kind.demo = "Demo prototype";
+  UI.fr.exDemo = "Prototypes · démos"; UI.en.exDemo = "Demo prototypes";
+  UI.fr.kind.project = "Projet réalisé"; UI.en.kind.project = "Delivered project";
+  UI.fr.exProject = "Projets réalisés"; UI.en.exProject = "Delivered projects";
+  UI.fr.s.link = "Ce que ça montre"; UI.en.s.link = "What it shows";
+  KIND_COLOR.demo = "#7C6CFF";
+  Object.assign(WT.fr, { quote:"Process Automation | <em>n8n · ERP/CRM · Agents IA</em>", polCap:"Automatisation · 2026", noteBtn2:"Voir un agent en action" });
+  Object.assign(WT.en, { quote:"Process Automation | <em>n8n · ERP/CRM · AI agents</em>", polCap:"Automation · 2026", noteBtn2:"Watch an agent run" });
+  UI.fr.polCap = WT.fr.polCap; UI.en.polCap = WT.en.polCap;
+
+  ABOUT.fr = {
+    lead:"J'automatise les processus que je connais de l'intérieur : administration du personnel, facturation, conformité, reporting.",
+    p:["Mon parcours est opérationnel : paie, administration du personnel, facturation multi-entités, contrôle des données. J'ai traité ces dossiers à la main avant de les automatiser. Je sais donc où sont les règles métier, les exceptions et les risques d'erreur, et c'est ce qui fait qu'une automatisation tient en production.",
+       "Aujourd'hui, je conçois des workflows n8n et des agents IA basés sur Claude : extraction et contrôle de documents, génération de contrats conformes à une convention collective, routage de demandes, synchronisation entre ERP, CRM, banque et outils bureautiques (Google Workspace, Notion, Slack).",
+       "Ma méthode : cartographier le processus réel, isoler les règles, faire travailler l'IA là où il faut lire ou rédiger, garder un contrôle humain sur les décisions sensibles, puis mesurer le gain."],
+    note:"Transparence : les dossiers A01 et P01 à P07 décrivent des missions et des processus réels (sociétés anonymisées). D01 et D02 sont des prototypes de démonstration construits sur des données fictives. Les gains signalés « estimés » restent à confirmer en production." };
+  ABOUT.en = {
+    lead:"I automate the processes I know from the inside: personnel administration, invoicing, compliance, reporting.",
+    p:["My background is operational: payroll, personnel administration, multi-entity billing, data control. I handled this work by hand before automating it, so I know where the business rules, exceptions and error risks are. That is what makes an automation hold up in production.",
+       "Today I design n8n workflows and Claude-based AI agents: document extraction and checks, contract generation compliant with a collective agreement, request routing, and sync between ERP, CRM, bank and office tools (Google Workspace, Notion, Slack).",
+       "My method: map the real process, isolate the rules, let the AI work where reading or writing is needed, keep a human check on sensitive decisions, then measure the gain."],
+    note:"Transparency: files A01 and P01–P07 describe real missions and processes (companies anonymised). D01 and D02 are demo prototypes built on fictional data. Gains marked “estimated” are still to be confirmed in production." };
+
+  /* ---------- Nouveaux dossiers ---------- */
+  const SEC = {fr:"Mission freelance · PME de sécurité privée, Île-de-France (10 à 30 agents) · 2026", en:"Freelance mission · private security SME, Paris region (10–30 guards) · 2026"};
+  const DEMO = {fr:"Prototype de démonstration · données fictives · 2026", en:"Demo prototype · fictional data · 2026"};
+
+  const A01 = { id:"a01", ref:"A01", kind:"project", tools:["n8n","Claude (API Anthropic)","Google Drive","Google Sheets","Gmail"],
+    fr:{ title:"Agent IA de gestion RH pour une société de sécurité privée (IDCC 1351)",
+      line:"Un agent Claude orchestré par n8n rédige les contrats conformes à la convention de la prévention-sécurité, classe les dossiers du personnel et surveille l'échéance des cartes professionnelles.",
+      metric:"Contrat prêt en ~3 min (estimé)", org:SEC.fr,
+      meta:[["Périmètre","Administration du personnel : contrats, dossiers RH, habilitations"],["Effectif","10 à 30 agents de sécurité"],["Cadre","Convention collective IDCC 1351 (prévention et sécurité)"],["Statut","Agent conçu · déploiement en cours"]],
+      context:"J'ai assuré l'administration du personnel d'une PME de sécurité privée : contrats, avenants, formalités d'embauche. Chaque contrat devait reprendre la bonne classification de la convention IDCC 1351, la bonne période d'essai et le numéro de carte professionnelle de l'agent. Les dossiers étaient dispersés, et l'échéance des cartes professionnelles se suivait à la main, alors qu'un agent sans carte valide ne peut pas être affecté.",
+      objective:"Industrialiser ce que je faisais à la main : un contrat conforme généré en quelques minutes, des dossiers RH rangés automatiquement et aucune carte professionnelle qui expire sans alerte.",
+      mine:["Analyse du processus d'embauche, du recrutement à l'affectation","Formalisation des règles IDCC 1351 utilisées par l'agent (classification, période d'essai, mentions obligatoires)","Conception du prompt système et du format de sortie structuré de l'agent Claude","Construction des workflows n8n : génération, classement, suivi des habilitations","Mise en place des points de contrôle humain avant toute signature"],
+      others:["Validation et signature des contrats par la direction"],
+      method:[["Cartographier","l'embauche : données salarié, pièces, contrat, affectation"],["Formaliser","les règles de la convention en consignes et en contrôles"],["Construire","3 workflows n8n reliés à Claude, Drive, Sheets et Gmail"],["Contrôler","relecture humaine obligatoire et journal de chaque action"],["Déployer","sur les nouveaux dossiers, puis mesurer"]],
+      chains:[
+        {name:"Génération du contrat",steps:["Formulaire / ligne salarié (webhook)","Contrôle des champs obligatoires","Agent Claude : classification IDCC 1351, période d'essai, clauses","Contrat rédigé depuis le modèle (Google Docs)","Relecture humaine","Envoi Gmail + journal Google Sheets"]},
+        {name:"Classement des dossiers RH",steps:["Pièce reçue (Gmail / Drive)","Agent Claude : type de document + salarié concerné","Renommage selon la convention de nommage","Rangement dans le dossier du salarié (Drive)","Liste des pièces manquantes mise à jour"]},
+        {name:"Suivi des cartes professionnelles",steps:["Planificateur quotidien (cron)","Lecture du registre des habilitations (Sheets)","Calcul des échéances","Alerte J-90 / J-30 à la direction et à l'agent","Blocage « non affectable » si carte expirée"]}],
+      deliv:["Agent IA de génération contractuelle (prompt système + sortie JSON)","3 workflows n8n documentés","Registre des contrats et des habilitations (Google Sheets)","Arborescence et convention de nommage des dossiers RH"],
+      issues:[["Erreur de classification ou de clause","Règles IDCC 1351 explicites dans le prompt, sortie structurée vérifiée par n8n, relecture humaine avant envoi"],["Données personnelles des salariés","Accès limités au Drive de l'entreprise, aucune donnée conservée hors des outils du client"],["Carte professionnelle expirée non détectée","Contrôle quotidien automatique et double alerte J-90 / J-30"],["Pièce justificative manquante","Liste des pièces manquantes tenue à jour par salarié"]],
+      proved:["Agent et workflows construits à partir des règles et des dossiers réels de la mission","3 workflows : génération, classement, suivi des habilitations","Contrôle humain intégré avant toute signature"],
+      measure:["Temps de rédaction d'un contrat, avant / après","Contrats corrigés à la relecture","Cartes professionnelles renouvelées à temps","Pièces manquantes par dossier"],
+      skills:["Analyse de processus RH","Conception d'agent IA","Prompt engineering","Architecture n8n","Conformité conventionnelle"],
+      link:"Une expertise métier pointue (IDCC 1351) traduite en agent IA fiable : les règles sont explicites, l'IA rédige, l'automatisation contrôle, l'humain valide." },
+    en:{ title:"HR AI agent for a private security company (French collective agreement IDCC 1351)",
+      line:"A Claude agent orchestrated by n8n drafts contracts compliant with the security-sector collective agreement, files personnel records and monitors professional licence expiry dates.",
+      metric:"Contract ready in ~3 min (estimated)", org:SEC.en,
+      meta:[["Scope","Personnel administration: contracts, HR files, licences"],["Headcount","10–30 security guards"],["Framework","Collective agreement IDCC 1351 (prevention & security)"],["Status","Agent built · roll-out in progress"]],
+      context:"I handled personnel administration for a private security SME: contracts, amendments, hiring formalities. Every contract had to carry the right IDCC 1351 classification, the right probation period and the guard's professional licence number. Files were scattered and licence expiry was tracked by hand, although a guard without a valid licence cannot be assigned.",
+      objective:"Industrialise what I was doing by hand: a compliant contract in minutes, HR files filed automatically and no licence expiring without an alert.",
+      mine:["Mapped the hiring process, from recruitment to assignment","Formalised the IDCC 1351 rules used by the agent (classification, probation, mandatory clauses)","Designed the Claude agent's system prompt and structured output","Built the n8n workflows: generation, filing, licence tracking","Set human checkpoints before any signature"],
+      others:["Contracts approved and signed by management"],
+      method:[["Map","hiring: employee data, documents, contract, assignment"],["Formalise","the agreement's rules as instructions and checks"],["Build","3 n8n workflows connected to Claude, Drive, Sheets and Gmail"],["Control","mandatory human review and a log of every action"],["Deploy","on new files, then measure"]],
+      chains:[
+        {name:"Contract generation",steps:["Form / employee row (webhook)","Required-field check","Claude agent: IDCC 1351 classification, probation, clauses","Contract drafted from template (Google Docs)","Human review","Gmail send + Google Sheets log"]},
+        {name:"HR file filing",steps:["Document received (Gmail / Drive)","Claude agent: document type + employee","Renamed to naming convention","Filed in the employee folder (Drive)","Missing-documents list updated"]},
+        {name:"Professional licence tracking",steps:["Daily scheduler (cron)","Read licence register (Sheets)","Compute expiry dates","Alert at D-90 / D-30 to management and guard","“Not assignable” flag if expired"]}],
+      deliv:["Contract-drafting AI agent (system prompt + JSON output)","3 documented n8n workflows","Contract and licence register (Google Sheets)","HR folder structure and naming convention"],
+      issues:[["Wrong classification or clause","Explicit IDCC 1351 rules in the prompt, structured output checked by n8n, human review before sending"],["Employee personal data","Restricted access to the company Drive, no data kept outside the client's tools"],["Expired licence not detected","Automatic daily check and double alert at D-90 / D-30"],["Missing supporting document","Missing-documents list kept per employee"]],
+      proved:["Agent and workflows built from the mission's real rules and files","3 workflows: generation, filing, licence tracking","Human check built in before any signature"],
+      measure:["Time to draft a contract, before / after","Contracts corrected at review","Licences renewed on time","Missing documents per file"],
+      skills:["HR process analysis","AI agent design","Prompt engineering","n8n architecture","Collective-agreement compliance"],
+      link:"Deep domain knowledge (IDCC 1351) turned into a reliable AI agent: rules are explicit, the AI drafts, automation checks, a human approves." } };
+  A01.agent = {
+    fr:["Lit la fiche du salarié et le modèle de contrat","Déduit la classification IDCC 1351 (niveau, échelon, coefficient) à partir du poste","Applique la période d'essai et les clauses prévues par la convention","Rend un JSON structuré (champs du contrat + points d'attention) contrôlé par n8n","Identifie le type de chaque pièce reçue pour la ranger dans le bon dossier"],
+    en:["Reads the employee record and the contract template","Infers the IDCC 1351 classification (level, step, coefficient) from the job","Applies the probation period and clauses set by the agreement","Returns structured JSON (contract fields + warnings) checked by n8n","Identifies each incoming document's type to file it in the right folder"] };
+  A01.roi = { fr:[["~3 min","par contrat au lieu de 30 à 45 min"],["0","carte pro expirée sans alerte"],["100 %","des dossiers nommés et rangés de façon homogène"],["~10 h","libérées par mois sur 10 embauches"]],
+              en:[["~3 min","per contract instead of 30–45 min"],["0","licence expiring without an alert"],["100%","of files named and filed consistently"],["~10 h","freed per month for 10 hires"]],
+              note:{fr:"Gains estimés à partir de mon temps de traitement manuel sur cette mission, à confirmer en production.",en:"Gains estimated from my own manual processing time on this mission, to be confirmed in production."} };
+
+  const D01 = { id:"d01", ref:"D01", kind:"demo", tools:["n8n","Claude","HubSpot CRM","Slack","Gmail"],
+    fr:{ title:"Qualification et routage intelligent des leads (n8n × Claude × HubSpot)",
+      line:"Chaque demande entrante est lue par un agent Claude, scorée, enrichie puis créée dans HubSpot et attribuée au bon commercial, avec une alerte Slack et un brouillon de réponse.",
+      metric:"1re réponse < 5 min (cible)", org:DEMO.fr,
+      meta:[["Cas d'usage","PME B2B de services, demandes via formulaire et e-mail"],["CRM","HubSpot (contacts, entreprises, transactions)"],["Statut","Prototype fonctionnel sur données fictives"],["Outils","n8n · Claude · HubSpot · Slack · Gmail"]],
+      context:"Dans beaucoup de PME, les demandes arrivent par plusieurs canaux et restent des heures dans une boîte partagée. Personne ne sait qui doit répondre, les doublons se multiplient dans le CRM et les meilleurs prospects attendent autant que les autres.",
+      objective:"Qu'aucune demande ne se perde : chaque lead est qualifié, enregistré dans le CRM et confié au bon commercial en quelques minutes.",
+      mine:["Conception du workflow de bout en bout","Rédaction du prompt de qualification et de la grille de scoring","Mapping des champs vers les objets HubSpot","Règles de routage par secteur, taille et score","Gestion des doublons et des erreurs"],
+      others:["Commerciaux : traitement du lead et validation du brouillon de réponse"],
+      method:[["Collecter","formulaire web et e-mails entrants"],["Qualifier","besoin, secteur, taille, urgence (Claude)"],["Dédoublonner","recherche du contact et de l'entreprise dans HubSpot"],["Router","attribution au commercial selon des règles"],["Notifier","Slack + brouillon de réponse personnalisé"]],
+      chains:[{name:"Lead → CRM → commercial",steps:["Formulaire / e-mail (webhook)","Agent Claude : extraction + score /100","Recherche doublon HubSpot","Création contact + transaction","Attribution au commercial","Alerte Slack + brouillon Gmail"]}],
+      deliv:["Workflow n8n (export JSON)","Prompt de qualification et grille de scoring","Tableau de bord des leads dans HubSpot"],
+      issues:[["Lead mal qualifié par l'IA","Score explicable (raisons listées) et seuil sous lequel un humain décide"],["Doublons dans le CRM","Recherche par e-mail et domaine avant toute création"],["Panne d'une API","Relance automatique et alerte en cas d'échec"]],
+      proved:["Workflow complet testé sur 50 demandes fictives","Création HubSpot et routage sans intervention"],
+      measure:["Délai de première réponse","Taux de leads qualifiés","Doublons évités"],
+      skills:["Intégration CRM","Conception d'agent IA","Règles de routage","Gestion des erreurs"],
+      link:"La même logique que mes workflows de routage en production (cooptation, factures), appliquée au cycle commercial et à un CRM du marché." },
+    en:{ title:"Smart lead qualification and routing (n8n × Claude × HubSpot)",
+      line:"Each incoming request is read by a Claude agent, scored, enriched, created in HubSpot and assigned to the right sales rep, with a Slack alert and a draft reply.",
+      metric:"First reply < 5 min (target)", org:DEMO.en,
+      meta:[["Use case","B2B services SME, requests via form and e-mail"],["CRM","HubSpot (contacts, companies, deals)"],["Status","Working prototype on fictional data"],["Tools","n8n · Claude · HubSpot · Slack · Gmail"]],
+      context:"In many SMEs, requests arrive through several channels and sit for hours in a shared inbox. Nobody knows who should answer, duplicates pile up in the CRM and the best prospects wait as long as everyone else.",
+      objective:"No request gets lost: every lead is qualified, recorded in the CRM and handed to the right rep within minutes.",
+      mine:["End-to-end workflow design","Qualification prompt and scoring grid","Field mapping to HubSpot objects","Routing rules by sector, size and score","Duplicate and error handling"],
+      others:["Sales reps: handle the lead and approve the draft reply"],
+      method:[["Collect","web form and incoming e-mails"],["Qualify","need, sector, size, urgency (Claude)"],["Deduplicate","contact and company lookup in HubSpot"],["Route","assign to a rep by rules"],["Notify","Slack + personalised draft reply"]],
+      chains:[{name:"Lead → CRM → sales rep",steps:["Form / e-mail (webhook)","Claude agent: extraction + score /100","HubSpot duplicate check","Create contact + deal","Assign to rep","Slack alert + Gmail draft"]}],
+      deliv:["n8n workflow (JSON export)","Qualification prompt and scoring grid","Lead dashboard in HubSpot"],
+      issues:[["Lead misqualified by the AI","Explainable score (reasons listed) and a threshold below which a human decides"],["CRM duplicates","Lookup by e-mail and domain before any creation"],["API outage","Automatic retry and failure alert"]],
+      proved:["Full workflow tested on 50 fictional requests","HubSpot creation and routing with no manual step"],
+      measure:["Time to first reply","Share of qualified leads","Duplicates avoided"],
+      skills:["CRM integration","AI agent design","Routing rules","Error handling"],
+      link:"The same logic as my routing workflows in production (referrals, invoices), applied to the sales cycle and a market-standard CRM." } };
+  D01.agent = { fr:["Extrait nom, société, besoin, budget et délai du message","Attribue un score sur 100 avec les raisons du score","Classe la demande : prospect, client existant, partenaire, spam","Rédige un brouillon de réponse adapté au besoin détecté"],
+                en:["Extracts name, company, need, budget and timing from the message","Assigns a score out of 100 with its reasons","Classifies the request: prospect, existing client, partner, spam","Drafts a reply suited to the detected need"] };
+  D01.roi = { fr:[["< 5 min","délai de 1re réponse visé (souvent plusieurs heures en manuel)"],["0","lead perdu dans la boîte partagée"],["~4 h","de saisie CRM économisées par semaine pour 100 leads"]],
+              en:[["< 5 min","target time to first reply (often hours by hand)"],["0","lead lost in the shared inbox"],["~4 h","of CRM data entry saved per week for 100 leads"]],
+              note:{fr:"Prototype : objectifs et gains estimés, pas des résultats mesurés chez un client.",en:"Prototype: targets and estimated gains, not results measured at a client."} };
+
+  const D02 = { id:"d02", ref:"D02", kind:"demo", tools:["n8n","Claude","Odoo (ERP)","Qonto","Pennylane","Google Sheets"],
+    fr:{ title:"Synchronisation facturation ERP ↔ banque ↔ comptabilité, avec relances rédigées par IA",
+      line:"Les paiements Qonto sont rapprochés automatiquement des factures Odoo, un agent Claude tranche les cas ambigus, les écritures partent vers Pennylane et les relances clients sont rédigées et envoyées au bon moment.",
+      metric:"Rapprochement en continu", org:DEMO.fr,
+      meta:[["Cas d'usage","PME de services, ~200 factures par mois"],["Systèmes","Odoo (ERP) · Qonto (banque) · Pennylane (compta)"],["Statut","Prototype fonctionnel sur données fictives"],["Outils","n8n · Claude · Odoo · Qonto · Pennylane · Sheets"]],
+      context:"Le rapprochement bancaire et les relances se font souvent en fin de mois, à la main : libellés de virement incomplets, paiements partiels, factures oubliées. Le DSO s'allonge et la clôture prend des jours. J'ai réalisé ces rapprochements (Qonto) et ces relances moi-même, en poste.",
+      objective:"Des factures soldées dès réception du paiement, des relances envoyées sans oubli et une comptabilité à jour en continu.",
+      mine:["Architecture des échanges entre Odoo, Qonto et Pennylane","Règles de rapprochement : montant, référence, client, date","Prompt de l'agent pour les cas ambigus","Séquence de relance J+7 / J+15 / J+30","Tableau de suivi du DSO"],
+      others:["Comptable : validation des écritures signalées « à vérifier »"],
+      method:[["Écouter","les nouveaux paiements Qonto"],["Rapprocher","règles exactes d'abord, IA ensuite"],["Solder","la facture dans Odoo et pousser l'écriture vers Pennylane"],["Relancer","les factures échues, avec un ton adapté au client"],["Piloter","le DSO et les anomalies"]],
+      chains:[{name:"Paiement → facture → compta",steps:["Nouveau paiement Qonto (webhook)","Règles exactes : montant + référence","Agent Claude : cas ambigus (libellé, partiel)","Facture soldée dans Odoo","Écriture envoyée à Pennylane","Anomalie → file « à vérifier »"]},
+              {name:"Relances clients",steps:["Planificateur quotidien","Factures échues (Odoo)","Agent Claude : relance selon l'historique client","Envoi Gmail J+7 / J+15 / J+30","Suivi DSO (Sheets)"]}],
+      deliv:["2 workflows n8n (export JSON)","Règles de rapprochement documentées","Modèles de relance et prompt de l'agent","Tableau de suivi du DSO"],
+      issues:[["Mauvais rapprochement","L'IA ne valide jamais seule au-delà d'un seuil de confiance : la ligne part en « à vérifier »"],["Paiement partiel","Facture marquée partiellement payée et relance du solde"],["Client relancé alors qu'il a payé","Contrôle du statut Odoo juste avant chaque envoi"]],
+      proved:["Workflows testés sur un jeu de 200 factures et 180 paiements fictifs","Rapprochement automatique des cas simples et ambigus"],
+      measure:["Part des paiements rapprochés sans intervention","Évolution du DSO","Temps de clôture mensuelle"],
+      skills:["Intégration ERP","Finance opérationnelle","Conception d'agent IA","Contrôle des risques"],
+      link:"Mon expérience des rapprochements, des clôtures et du suivi des règlements, transformée en flux continu entre les outils financiers les plus utilisés par les PME françaises." },
+    en:{ title:"ERP ↔ bank ↔ accounting billing sync, with AI-written payment reminders",
+      line:"Qonto payments are matched automatically to Odoo invoices, a Claude agent settles ambiguous cases, entries flow to Pennylane and client reminders are written and sent at the right time.",
+      metric:"Continuous reconciliation", org:DEMO.en,
+      meta:[["Use case","Services SME, ~200 invoices a month"],["Systems","Odoo (ERP) · Qonto (bank) · Pennylane (accounting)"],["Status","Working prototype on fictional data"],["Tools","n8n · Claude · Odoo · Qonto · Pennylane · Sheets"]],
+      context:"Bank reconciliation and reminders are often done at month-end, by hand: incomplete transfer labels, partial payments, forgotten invoices. DSO grows and the close takes days. I have done these reconciliations (Qonto) and reminders myself on the job.",
+      objective:"Invoices settled as soon as payment arrives, reminders sent without fail and books kept up to date continuously.",
+      mine:["Architecture of the Odoo, Qonto and Pennylane exchanges","Matching rules: amount, reference, client, date","Agent prompt for ambiguous cases","Reminder sequence at D+7 / D+15 / D+30","DSO tracking sheet"],
+      others:["Accountant: approves entries flagged “to check”"],
+      method:[["Listen","for new Qonto payments"],["Match","exact rules first, AI second"],["Settle","the invoice in Odoo and push the entry to Pennylane"],["Remind","overdue invoices, in a tone suited to the client"],["Steer","DSO and anomalies"]],
+      chains:[{name:"Payment → invoice → books",steps:["New Qonto payment (webhook)","Exact rules: amount + reference","Claude agent: ambiguous cases (label, partial)","Invoice settled in Odoo","Entry sent to Pennylane","Anomaly → “to check” queue"]},
+              {name:"Client reminders",steps:["Daily scheduler","Overdue invoices (Odoo)","Claude agent: reminder based on client history","Gmail send at D+7 / D+15 / D+30","DSO tracking (Sheets)"]}],
+      deliv:["2 n8n workflows (JSON export)","Documented matching rules","Reminder templates and agent prompt","DSO tracking sheet"],
+      issues:[["Wrong match","The AI never approves alone below a confidence threshold: the line goes to “to check”"],["Partial payment","Invoice marked partly paid and balance reminded"],["Client reminded after paying","Odoo status checked right before each send"]],
+      proved:["Workflows tested on 200 fictional invoices and 180 payments","Automatic matching of simple and ambiguous cases"],
+      measure:["Share of payments matched with no manual step","DSO trend","Month-end close time"],
+      skills:["ERP integration","Operational finance","AI agent design","Risk control"],
+      link:"My hands-on experience of reconciliations, closes and payment follow-up, turned into a continuous flow between the finance tools French SMEs use most." } };
+  D02.agent = { fr:["Compare un libellé de virement incomplet aux factures ouvertes et propose la correspondance la plus probable, avec un indice de confiance","Détecte les paiements partiels ou groupés","Rédige chaque relance selon l'historique du client (premier retard, retard récurrent)"],
+                en:["Compares an incomplete transfer label with open invoices and proposes the most likely match, with a confidence score","Detects partial or grouped payments","Writes each reminder based on the client's history (first delay, recurring delay)"] };
+  D02.roi = { fr:[["~85 %","des paiements rapprochés sans intervention (objectif)"],["-2 j","sur la clôture mensuelle (estimé)"],["0","facture échue oubliée"]],
+              en:[["~85%","of payments matched with no manual step (target)"],["-2 days","on the month-end close (estimated)"],["0","overdue invoice forgotten"]],
+              note:{fr:"Prototype : objectifs et gains estimés, pas des résultats mesurés chez un client.",en:"Prototype: targets and estimated gains, not results measured at a client."} };
+
+  PROJECTS.unshift(A01, D01, D02);
+
+  /* Rôle de l'agent IA + ROI dans chaque étude de cas */
+  const P_ROI_LBL = {fr:{agent:"Rôle de l'agent IA",roi:"Impact / ROI",sim:"▶ Voir ce workflow s'exécuter"},en:{agent:"AI agent's role",roi:"Impact / ROI",sim:"▶ Watch this workflow run"}};
+  const _case = caseStudyHTML;
+  caseStudyHTML = function(p, withNav){
+    let html = _case(p, withNav);
+    if(!p.agent && !p.roi) return html;
+    const T = P_ROI_LBL[LANG];
+    const box = `<div class="ia-box">
+      ${p.agent?`<div><h4>${T.agent}</h4><ul>${p.agent[LANG].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+      ${p.roi?`<div><h4>${T.roi}</h4><div class="roi-grid">${p.roi[LANG].map(([a,b])=>`<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</div><p class="roi-note">${esc(p.roi.note[LANG])}</p>${withNav&&SIM[p.id]?`<button class="btn sim-cta" data-sim="${p.id}">${T.sim}</button>`:""}</div>`:""}
+    </div>`;
+    return html.replace('<div class="pm-link">', box + '<div class="pm-link">');
+  };
+
+  /* Explorateur avec le filtre « Prototypes » */
+  renderExplorer = function(state){
+    const u = UI[LANG]; const f = state.filter || "all";
+    const count = k => k === "all" ? PROJECTS.length : PROJECTS.filter(p=>p.kind===k).length;
+    const list = PROJECTS.filter(p => f==="all" || p.kind===f);
+    const btn = (k,label) => `<button data-filter="${k}" class="${f===k?"on":""}">${label}<small>${count(k)}</small></button>`;
+    return `<div class="explorer">
+      <aside class="ex-side"><h4>${u.exFilters}</h4>${btn("all",u.exAll)}${btn("project",u.exProject)}${btn("demo",u.exDemo)}${btn("run",u.exRun)}${btn("past",u.exPast)}</aside>
+      <div class="ex-main">
+        <div class="ex-path">~/${esc(u.apps.projects)}${f!=="all"?" / "+esc(u.kind[f]):""}</div>
+        <p class="ex-note">${u.exNote}</p>
+        <div class="ex-grid">${list.map(p=>{ const c=p[LANG]; return `
+          <button class="pfile" data-project="${p.id}">
+            <div class="pfile-top">${ICON.file(KIND_COLOR[p.kind])}<span class="tag ${p.kind}">${u.kind[p.kind]}</span></div>
+            <span class="pfile-ref">${p.ref}</span>
+            <h3>${esc(c.title)}</h3>
+            <p>${esc(c.line)}</p>
+            <span class="metric">${esc(c.metric)}</span>
+          </button>`;}).join("")}</div>
+        <div class="ex-status">${list.length} ${u.items}</div>
+      </div></div>`;
+  };
+
+  /* ---------- Projets phares ---------- */
+  FLAGSHIP.fr.sub = "Trois réalisations qui résument ce que j'apporte : un agent IA métier, une automatisation en production et un reporting fiable.";
+  FLAGSHIP.en.sub = "Three pieces that sum up what I bring: a domain AI agent, an automation in production and reliable reporting.";
+  FLAGSHIP.fr.items.unshift({ id:"sec", name:"Agent RH · sécurité privée", tag:"Agent IA · n8n · IDCC 1351",
+    line:"Contrats conformes à la convention, dossiers RH rangés et cartes professionnelles surveillées, par un agent Claude orchestré dans n8n.",
+    steps:["La fiche du salarié déclenche le workflow","L'agent rédige le contrat selon la convention IDCC 1351","Relecture humaine, envoi et journal ; alertes J-90 / J-30 sur les cartes pro"],
+    tools:["n8n","Claude","Google Drive","Sheets","Gmail"], caseId:"a01" });
+  FLAGSHIP.en.items.unshift({ id:"sec", name:"HR agent · private security", tag:"AI agent · n8n · IDCC 1351",
+    line:"Agreement-compliant contracts, filed HR records and monitored professional licences, by a Claude agent orchestrated in n8n.",
+    steps:["The employee record triggers the workflow","The agent drafts the contract under IDCC 1351","Human review, sending and logging; D-90 / D-30 licence alerts"],
+    tools:["n8n","Claude","Google Drive","Sheets","Gmail"], caseId:"a01" });
+  FX_GLYPH.sec = '<svg viewBox="0 0 40 40"><defs><linearGradient id="fxg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A5B"/><stop offset="1" stop-color="#E8453C"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#fxg3)"/><path d="M20 9l9 3.5v6.5c0 5.6-3.8 10.2-9 12-5.2-1.8-9-6.4-9-12v-6.5z" fill="#fff"/><path d="M16 20l3 3 5-6" fill="none" stroke="#E8453C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* ---------- Compétences ---------- */
+  SKILLS.fr.unshift(
+    ["Agents IA & automatisation","n8n · Claude · Make",[["Agent IA de génération contractuelle (convention IDCC 1351)","A01"],["Workflows n8n en production : factures, cooptation, réponses types","P01 · P02 · P06"],["Prompt système, sortie JSON structurée, contrôle par le workflow","A01 · D01"],["Classement et extraction de documents par IA","A01 · P01 · P03"],["Planification, alertes, gestion des erreurs et des relances","A01 · D02"]]],
+    ["ERP, CRM & intégrations","Synchronisation d'outils",[["CRM : HubSpot (certification), routage et dédoublonnage","D01"],["ERP / finance : Odoo, Qonto, Pennylane, Sage","D02 · CV"],["Google Workspace : Gmail, Drive, Sheets, Docs","A01 · P01"],["Notion, Slack, API REST et webhooks","D01 · CV"]]]);
+  SKILLS.en.unshift(
+    ["AI agents & automation","n8n · Claude · Make",[["Contract-drafting AI agent (IDCC 1351 agreement)","A01"],["n8n workflows in production: invoices, referrals, standard replies","P01 · P02 · P06"],["System prompt, structured JSON output, workflow-side checks","A01 · D01"],["AI document classification and extraction","A01 · P01 · P03"],["Scheduling, alerts, error handling and retries","A01 · D02"]]],
+    ["ERP, CRM & integrations","Tool sync",[["CRM: HubSpot (certified), routing and deduplication","D01"],["ERP / finance: Odoo, Qonto, Pennylane, Sage","D02 · CV"],["Google Workspace: Gmail, Drive, Sheets, Docs","A01 · P01"],["Notion, Slack, REST APIs and webhooks","D01 · CV"]]]);
+  ["fr","en"].forEach(l => { SKILLS[l] = SKILLS[l].filter(c => !/^(Gestion de projet|Project management)$/.test(c[0])); });
+
+  /* ---------- CV technique ---------- */
+  CV.fr.sub = "Process Automation Specialist · n8n · ERP/CRM · Agents IA";
+  CV.fr.profile = "Spécialiste de l'automatisation des processus administratifs, RH et financiers. Je conçois des workflows n8n et des agents IA (Claude) qui génèrent des documents conformes, contrôlent les données et synchronisent ERP, CRM et outils bureautiques. Mon expérience terrain de la paie, de l'administration du personnel et de la facturation multi-entités me permet d'automatiser des processus que je connais de l'intérieur.";
+  CV.fr.jobs = [
+    ["Depuis juin 2026","Process Automation Specialist · freelance","Missions via Malt · Île-de-France / à distance",[
+      "Mission PME de sécurité privée (10 à 30 agents, convention IDCC 1351) : administration du personnel, contrats, avenants, formalités d'embauche",
+      "Conception d'un agent IA de génération contractuelle (n8n × Claude) : classification IDCC 1351, période d'essai et clauses appliquées automatiquement, contrat prêt en ~3 min contre 30 à 45 min (estimé)",
+      "Architecture de workflows RH : classement automatique des pièces dans le dossier de chaque salarié (Drive), suivi des pièces manquantes",
+      "Automatisation du suivi des habilitations : contrôle quotidien des cartes professionnelles, alertes J-90 / J-30, statut « non affectable » si carte expirée",
+      "Contrôle humain intégré avant signature et journalisation de chaque action (Google Sheets)"]],
+    ["Depuis nov. 2025","Gestionnaire administrative · automatisation des processus","ESN (conseil IT), Île-de-France · CDI",[
+      "Conception et mise en production de 2 workflows n8n de traitement des factures : extraction par IA (Claude), contrôle RIB / n° de facture / SIRET, anti-doublons, préparation au paiement (Qonto)",
+      "Workflow n8n de routage des cooptations : attribution automatique des matricules, 300 dossiers traités en une journée",
+      "Consolidation mensuelle automatisée de 15 sociétés (~600 consultants) avec Power Query et formules de contrôle des écarts de TJM",
+      "Réponses types automatisées (n8n) sur la boîte support et facturation : toutes les demandes traitées le jour même",
+      "Archive de 1 600 factures classée et renommée en ~1 h avec Claude",
+      "Rapprochements bancaires, préparation des clôtures, calcul des commissions (2,5 %, 2 %, règles contractuelles), DPAE et URSSAF"]],
+    ["Sept. 2024 – nov. 2025","Assistante de gestion et RH","PME de services, Île-de-France · CDD",[
+      "Configuration d'assistants IA (Claude) pour les comptes-rendus et les courriers administratifs, avec relecture systématique",
+      "Administration du personnel, planification et coordination d'équipe"]],
+    ["Sept. 2024 – sept. 2025","Community management","Club sportif, Val-d'Oise · CDD",[
+      "Planification des contenus Instagram et Facebook, suivi des indicateurs d'engagement"]],
+    ["Sept. 2023 – juin 2024","Paie et administration du personnel","PME, Île-de-France · CDD",[
+      "Traitement de la paie et des dossiers salariés : la maîtrise des règles qui sert aujourd'hui de base à mes automatisations RH"]],
+    ["Sept. 2021 – juil. 2022","Stage commercial","Centre de remise en forme, Val-d'Oise",[
+      "Prospection, suivi et fidélisation des clients"]]
+  ];
+  CV.en.sub = "Process Automation Specialist · n8n · ERP/CRM · AI agents";
+  CV.en.profile = "Specialist in automating admin, HR and finance processes. I design n8n workflows and AI agents (Claude) that generate compliant documents, check data and sync ERP, CRM and office tools. Hands-on experience of payroll, personnel administration and multi-entity billing means I automate processes I know from the inside.";
+  CV.en.jobs = [
+    ["Since Jun 2026","Process Automation Specialist · freelance","Missions via Malt · Paris region / remote",[
+      "Private security SME (10–30 guards, collective agreement IDCC 1351): personnel administration, contracts, amendments, hiring formalities",
+      "Designed a contract-drafting AI agent (n8n × Claude): IDCC 1351 classification, probation and clauses applied automatically, contract ready in ~3 min vs 30–45 min (estimated)",
+      "HR workflow architecture: automatic filing of documents in each employee's folder (Drive), missing-documents tracking",
+      "Automated licence tracking: daily professional-licence check, D-90 / D-30 alerts, “not assignable” status when expired",
+      "Human check before signature and logging of every action (Google Sheets)"]],
+    ["Since Nov 2025","Administrative operations · process automation","IT consulting firm, Paris region · permanent",[
+      "Designed and deployed 2 n8n invoice workflows: AI extraction (Claude), bank details / invoice no. / company ID checks, duplicate control, payment preparation (Qonto)",
+      "n8n referral routing workflow: automatic referrer IDs, 300 files processed in one day",
+      "Automated monthly consolidation of 15 entities (~600 consultants) with Power Query and daily-rate variance checks",
+      "Automated standard replies (n8n) on the support & billing inbox: every request answered the same day",
+      "1,600-invoice archive filed and renamed in ~1 h with Claude",
+      "Bank reconciliations, month-end close preparation, commission calculation (2.5%, 2%, contract rules), French DPAE and URSSAF"]],
+    ["Sep 2024 – Nov 2025","Business & HR Assistant","Services SME, Paris region · fixed-term",[
+      "Configured AI assistants (Claude) for meeting minutes and administrative letters, with systematic review",
+      "Personnel administration, scheduling and team coordination"]],
+    ["Sep 2024 – Sep 2025","Community management","Sports club, Paris region · fixed-term",[
+      "Instagram and Facebook content planning, engagement metrics"]],
+    ["Sep 2023 – Jun 2024","Payroll & personnel administration","SME, Paris region · fixed-term",[
+      "Payroll and employee files: the rule knowledge that now underpins my HR automations"]],
+    ["Sep 2021 – Jul 2022","Sales internship","Fitness centre, Paris region",[
+      "Prospecting, client follow-up and retention"]]
+  ];
+  const STACK = {
+    fr:{h:"Stack technique",rows:[["Automatisation","n8n (cloud), Make, webhooks, API REST, planificateurs"],["IA","Claude (API Anthropic), agents IA, prompt engineering, sorties JSON structurées"],["ERP / CRM / finance","Odoo, HubSpot, Qonto, Pennylane, Sage"],["Collaboration & données","Notion, Slack, Google Workspace, Excel avancé, Power Query, Power BI"],["Métier","Paie, administration du personnel, IDCC 1351, facturation, rapprochements, clôtures"]]},
+    en:{h:"Tech stack",rows:[["Automation","n8n (cloud), Make, webhooks, REST APIs, schedulers"],["AI","Claude (Anthropic API), AI agents, prompt engineering, structured JSON outputs"],["ERP / CRM / finance","Odoo, HubSpot, Qonto, Pennylane, Sage"],["Collaboration & data","Notion, Slack, Google Workspace, advanced Excel, Power Query, Power BI"],["Domain","Payroll, personnel administration, IDCC 1351, invoicing, reconciliations, closes"]]} };
+  const _cv = cvHTML;
+  cvHTML = function(){
+    const s = STACK[LANG];
+    const block = `<h3>${s.h}</h3><table class="ps" style="margin-bottom:6px">${s.rows.map(([a,b])=>`<tr><td style="width:34%;font-weight:600">${esc(a)}</td><td>${esc(b)}</td></tr>`).join("")}</table>`;
+    return _cv().replace(`<h3>${CV[LANG].h.exp}</h3>`, block + `<h3>${CV[LANG].h.exp}</h3>`);
+  };
+  APPS.cv.render = () => cvHTML();
+
+  /* ---------- Terminal & corbeille ---------- */
+  TERM_TXT.fr.whoami = "Shtwessie D. — Process Automation Specialist.\nn8n · agents IA (Claude) · intégrations ERP/CRM · workflows RH et finance.";
+  TERM_TXT.en.whoami = "Shtwessie D. — Process Automation Specialist.\nn8n · AI agents (Claude) · ERP/CRM integrations · HR and finance workflows.";
+  TERM_TXT.fr.help += "\n  <span class='acc'>agent</span>       voir un agent IA s'exécuter";
+  TERM_TXT.en.help += "\n  <span class='acc'>agent</span>       watch an AI agent run";
+  const _rc = runCmd;
+  runCmd = function(raw){
+    if(["agent","agents","demo","run"].includes(raw.trim().toLowerCase())){
+      const out = $("#termOut");
+      if(out){ out.insertAdjacentHTML("beforeend", `<span class="dim">visitor@kim-os:~$</span> ${esc(raw)}\n${TERM_TXT[LANG].opened}\n`); out.scrollTop = out.scrollHeight; }
+      openApp("agent"); return;
+    }
+    _rc(raw);
+  };
+  TRASH.fr.unshift(["contrats_redigés_a_la_main_v12.docx","Rédigés par un agent IA conforme IDCC 1351","a01"],["suivi_cartes_pro_post-it.jpg","Alertes automatiques J-90 / J-30","a01"]);
+  TRASH.en.unshift(["contracts_written_by_hand_v12.docx","Drafted by an IDCC 1351-compliant AI agent","a01"],["licence_tracking_post-it.jpg","Automatic D-90 / D-30 alerts","a01"]);
+
+  /* ---------- Agent_Live : simulation animée des workflows ---------- */
+  const SIM = {
+    a01:{ fr:{name:"Contrat agent de sécurité",sub:"A01 · réel, données anonymisées"}, en:{name:"Security guard contract",sub:"A01 · real, anonymised data"},
+      nodes:[["Webhook","Fiche salarié reçue"],["Code","Contrôle des champs"],["Agent IA","Claude · règles IDCC 1351",1],["Google Docs","Contrat depuis modèle"],["Attente","Relecture humaine"],["Gmail","Envoi au salarié"],["Sheets","Journal + registre cartes pro"]],
+      nodesEn:[["Webhook","Employee record in"],["Code","Field check"],["AI agent","Claude · IDCC 1351 rules",1],["Google Docs","Contract from template"],["Wait","Human review"],["Gmail","Sent to employee"],["Sheets","Log + licence register"]],
+      log:{fr:["Fiche reçue : agent n°A-0142, poste « agent de sécurité qualifié »","7 champs obligatoires présents · carte pro valide jusqu'au 14/03/2029","Appel Claude (sortie JSON, 1 840 tokens)","Contrat généré : CDI_A-0142.docx","Validation par la direction : OK","E-mail envoyé avec le contrat et la liste des pièces","Ligne ajoutée au registre · alerte carte pro planifiée à J-90"],
+           en:["Record received: guard #A-0142, job “qualified security guard”","7 required fields present · licence valid until 14/03/2029","Claude call (JSON output, 1,840 tokens)","Contract generated: CDI_A-0142.docx","Management approval: OK","E-mail sent with contract and document list","Row added to register · licence alert scheduled at D-90"]},
+      out:`{
+  <span class="key">"salarie"</span>: "A-0142 (anonymisé)",
+  <span class="key">"convention"</span>: "IDCC 1351",
+  <span class="key">"classification"</span>: { "niveau": "III", "echelon": "2", "coefficient": 140 },
+  <span class="key">"periode_essai"</span>: "selon convention, renouvelable une fois",
+  <span class="key">"carte_pro"</span>: { "numero": "CAR-***-***", "valide_jusqu_au": "2029-03-14" },
+  <span class="key">"clauses"</span>: ["mobilité sur sites clients", "tenue de travail", "horaires de nuit"],
+  <span class="key">"points_attention"</span>: ["vérifier le site d'affectation initial"],
+  <span class="key">"pret_pour_relecture"</span>: true
+}`, kpi:{fr:["~3 min au lieu de 30–45 min","0 champ ressaisi","Contrôle humain : oui"],en:["~3 min instead of 30–45 min","0 fields re-typed","Human check: yes"]} },
+    d01:{ fr:{name:"Lead entrant → HubSpot",sub:"D01 · prototype, données fictives"}, en:{name:"Inbound lead → HubSpot",sub:"D01 · prototype, fictional data"},
+      nodes:[["Webhook","Formulaire site web"],["Agent IA","Claude · extraction + score",1],["HubSpot","Recherche doublon"],["HubSpot","Contact + transaction"],["Switch","Routage commercial"],["Slack","Alerte #ventes"],["Gmail","Brouillon de réponse"]],
+      nodesEn:[["Webhook","Website form"],["AI agent","Claude · extraction + score",1],["HubSpot","Duplicate check"],["HubSpot","Contact + deal"],["Switch","Sales routing"],["Slack","#sales alert"],["Gmail","Draft reply"]],
+      log:{fr:["Demande reçue : « Besoin d'automatiser nos notes de frais, 40 salariés »","Appel Claude : score 82/100 · catégorie prospect","Aucun doublon (e-mail + domaine)","Contact et transaction créés · étape « Nouveau lead »","Règle : PME 20-50 salariés → commercial n°2","Message Slack publié dans #ventes","Brouillon de réponse créé, en attente de validation"],
+           en:["Request received: “We need to automate expense reports, 40 staff”","Claude call: score 82/100 · category prospect","No duplicate (e-mail + domain)","Contact and deal created · stage “New lead”","Rule: SME 20–50 staff → rep #2","Slack message posted in #sales","Draft reply created, awaiting approval"]},
+      out:`{
+  <span class="key">"societe"</span>: "Exemple SAS (fictif)",
+  <span class="key">"besoin"</span>: "automatisation des notes de frais",
+  <span class="key">"taille"</span>: "20-50",
+  <span class="key">"urgence"</span>: "sous 1 mois",
+  <span class="key">"score"</span>: 82,
+  <span class="key">"raisons"</span>: ["besoin clair", "taille cible", "délai court"],
+  <span class="key">"categorie"</span>: "prospect"
+}`, kpi:{fr:["1re réponse < 5 min (cible)","0 doublon créé","Commercial notifié"],en:["First reply < 5 min (target)","0 duplicates","Rep notified"]} },
+    d02:{ fr:{name:"Paiement Qonto → Odoo → Pennylane",sub:"D02 · prototype, données fictives"}, en:{name:"Qonto payment → Odoo → Pennylane",sub:"D02 · prototype, fictional data"},
+      nodes:[["Webhook","Paiement Qonto"],["Code","Règles exactes"],["Agent IA","Claude · cas ambigu",1],["Odoo","Facture soldée"],["Pennylane","Écriture comptable"],["Sheets","Suivi DSO"]],
+      nodesEn:[["Webhook","Qonto payment"],["Code","Exact rules"],["AI agent","Claude · ambiguous case",1],["Odoo","Invoice settled"],["Pennylane","Accounting entry"],["Sheets","DSO tracking"]],
+      log:{fr:["Virement reçu : 2 340,00 € · libellé « VIR FACT MARS DUPONT »","Aucune correspondance exacte (référence absente)","Appel Claude : FAC-2026-0318 proposée, confiance 0,94","Facture FAC-2026-0318 marquée payée","Écriture envoyée à Pennylane","DSO recalculé : 38 j (-3 j sur le mois)"],
+           en:["Transfer received: €2,340.00 · label “VIR FACT MARS DUPONT”","No exact match (reference missing)","Claude call: FAC-2026-0318 proposed, confidence 0.94","Invoice FAC-2026-0318 marked paid","Entry sent to Pennylane","DSO recalculated: 38 days (-3 days this month)"]},
+      out:`{
+  <span class="key">"paiement"</span>: { "montant": 2340.00, "libelle": "VIR FACT MARS DUPONT" },
+  <span class="key">"facture_proposee"</span>: "FAC-2026-0318",
+  <span class="key">"client"</span>: "Dupont Conseil (fictif)",
+  <span class="key">"confiance"</span>: 0.94,
+  <span class="key">"motif"</span>: "montant identique, client et mois concordants",
+  <span class="key">"action"</span>: "solder"   <span class="t">// sous 0,85 → file « à vérifier »</span>
+}`, kpi:{fr:["Rapproché sans intervention","Compta à jour en continu","Seuil de confiance : 0,85"],en:["Matched with no manual step","Books always up to date","Confidence threshold: 0.85"]} }
+  };
+  const SIMT = { fr:{title:"Agent_Live",side:"Workflows",run:"▶ Lancer l'exécution",running:"Exécution…",again:"↻ Relancer",log:"Journal d'exécution",out:"Sortie de l'agent IA (JSON)",wait:"Cliquez sur « Lancer l'exécution » pour voir le workflow tourner, étape par étape.",disc:"Simulation animée à partir de mes workflows. Les données affichées sont anonymisées ou fictives.",ready:"prêt"},
+                 en:{title:"Agent_Live",side:"Workflows",run:"▶ Run workflow",running:"Running…",again:"↻ Run again",log:"Execution log",out:"AI agent output (JSON)",wait:"Click “Run workflow” to watch it execute, step by step.",disc:"Animated simulation based on my workflows. Data shown is anonymised or fictional.",ready:"ready"} };
+  let simTimer = null;
+  function renderSim(){
+    const st = WIN.agent?.state || {}; const id = st.sc || "a01"; const S = SIM[id], T = SIMT[LANG];
+    const nodes = LANG==="fr" ? S.nodes : S.nodesEn;
+    return `<div class="sim">
+      <aside class="sim-side"><h4>${T.side}</h4>${Object.entries(SIM).map(([k,v])=>`<button data-sc="${k}" class="${k===id?"on":""}">${esc(v[LANG].name)}<small>${esc(v[LANG].sub)}</small></button>`).join("")}
+        <p class="sim-disc">${T.disc}</p></aside>
+      <div class="sim-main">
+        <div class="sim-top"><h3>${esc(S[LANG].name)}</h3><span class="sim-stat" id="simStat">${T.ready}</span><button class="sim-run" id="simRun" data-sim-run>${T.run}</button></div>
+        <div class="sim-canvas"><div class="sim-flow">${nodes.map(([k,n,ai],i)=>`${i?`<span class="sim-link" data-l="${i}"></span>`:""}<div class="sim-node${ai?" ai":""}" data-n="${i}"><div class="k">${esc(k)}</div><div class="n">${esc(n)}</div></div>`).join("")}</div></div>
+        <div class="sim-low"><div class="sim-log" id="simLog"><span class="t">${T.log}</span>\n${T.wait}</div><div class="sim-out" id="simOut"><span class="h">${T.out}</span>\n…</div></div>
+      </div></div>`;
+  }
+  function runSim(){
+    const w = WIN.agent; if(!w) return; const el = w.el; const id = w.state.sc || "a01"; const S = SIM[id], T = SIMT[LANG];
+    clearInterval(simTimer);
+    const nodes = el.querySelectorAll(".sim-node"), links = el.querySelectorAll(".sim-link");
+    nodes.forEach(n=>n.classList.remove("run","done")); links.forEach(l=>l.classList.remove("done"));
+    const log = el.querySelector("#simLog"), out = el.querySelector("#simOut"), stat = el.querySelector("#simStat"), btn = el.querySelector("#simRun");
+    log.innerHTML = `<span class="t">${T.log}</span>\n`; out.innerHTML = `<span class="h">${T.out}</span>\n…`;
+    btn.disabled = true; btn.textContent = T.running;
+    const lines = S.log[LANG]; let i = 0; const t0 = Date.now();
+    const step = () => {
+      if(i>0){ nodes[i-1].classList.remove("run"); nodes[i-1].classList.add("done"); if(links[i-1]) links[i-1].classList.add("done"); }
+      if(i >= nodes.length){
+        clearInterval(simTimer); btn.disabled = false; btn.textContent = T.again;
+        stat.textContent = `✓ ${nodes.length}/${nodes.length} · ${((Date.now()-t0)/1000).toFixed(1)} s`;
+        log.insertAdjacentHTML("beforeend", `<div class="sim-kpi">${S.kpi[LANG].map(k=>`<span>${esc(k)}</span>`).join("")}</div>`);
+        return;
+      }
+      nodes[i].classList.add("run");
+      const ts = new Date().toLocaleTimeString(LANG==="fr"?"fr-FR":"en-GB");
+      const isAi = nodes[i].classList.contains("ai");
+      log.insertAdjacentHTML("beforeend", `<span class="t">${ts}</span> <span class="${isAi?"warn":"ok"}">●</span> ${esc(lines[i]||"")}\n`);
+      log.scrollTop = log.scrollHeight;
+      if(isAi) setTimeout(()=>{ if(out.isConnected) out.innerHTML = `<span class="h">${T.out}</span>\n${S.out}`; }, 500);
+      stat.textContent = `${i+1}/${nodes.length}`;
+      i++;
+    };
+    step(); simTimer = setInterval(step, 850);
+  }
+  ICON.agent = ios("agt", {fill:"url(#g-agt)", defs:lg("g-agt","#FF8A5B","#E8453C")},
+    `<rect x="12" y="15" width="28" height="22" rx="7" fill="#fff"/><circle cx="21" cy="26" r="2.6" fill="#E8453C"/><circle cx="31" cy="26" r="2.6" fill="#E8453C"/><path d="M26 9v6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="26" cy="8" r="2.4" fill="#fff"/><path d="M8 24v6M44 24v6" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>`);
+  UI.fr.apps.agent = "Agent_Live"; UI.en.apps.agent = "Agent_Live";
+  UI.fr.wt.agent = "Agent_Live — workflows n8n × Claude"; UI.en.wt.agent = "Agent_Live — n8n × Claude workflows";
+  APPS.agent = { render: renderSim, w:1000, h:640 };
+  ORDER.splice(ORDER.indexOf("flagship") + 1, 0, "agent");
+  document.addEventListener("click", e=>{
+    const sc = e.target.closest("[data-sc]"); if(sc && WIN.agent){ clearInterval(simTimer); WIN.agent.state.sc = sc.dataset.sc; refreshWin("agent"); return; }
+    if(e.target.closest("[data-sim-run]")){ runSim(); return; }
+    const sm = e.target.closest("[data-sim]"); if(sm){ openApp("agent", sm); WIN.agent.state.sc = sm.dataset.sim; clearInterval(simTimer); refreshWin("agent"); setTimeout(runSim, 350); return; }
+  });
+  // Le bouton secondaire de la note ouvre l'agent
+  const _note = renderNote;
+  renderNote = function(){ _note(); const b = document.querySelector('#w-note .alt[data-open="cv"]'); if(b) b.dataset.open = "agent"; };
+  renderNote();
+  window.SIM = SIM;
+})();
+
 
 /* ---------- Init ---------- */
 document.querySelectorAll('[data-portrait]').forEach(i=>i.src=PORTRAIT);
