@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le Labo Essensia · Construisez votre automatisation en 90 secondes</title>
+<meta name="description" content="Répondez à 6 questions : Essensia dessine en direct le workflow qui automatiserait votre processus, avec son code et une estimation du temps gagné.">
+<meta property="og:title" content="Le Labo Essensia · votre automatisation, dessinée en direct">
+<meta property="og:description" content="6 questions, un workflow n8n généré sous vos yeux, son code et une estimation du temps gagné.">
+<meta property="og:image" content="https://shtwessie.github.io/kim-os/assets/vignette-labo.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='white' stroke='%230B1F3A' stroke-width='8'/%3E%3Cpath d='M50 18 L50 40 M22 66 L41 55 M78 66 L59 55' stroke='%23E8453C' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%230B1F3A'/%3E%3C/svg%3E">
+<style>
+:root{--navy:#0B1F3A;--navy2:#13305A;--deep:#071528;--coral:#E8453C;--peach:#FF8A5B;--lin:#F4F1EC;--muted:#8A97AD;--line:rgba(255,255,255,.09);--ok:#2FBF71;--violet:#7C6CFF;--amber:#F5B544;--mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Inter",-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--deep);color:#E8EDF5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1.1px,transparent 1.1px);background-size:22px 22px;pointer-events:none}
+body:after{content:"";position:fixed;right:-260px;top:-260px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(232,69,60,.28),transparent 65%);pointer-events:none}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+header{position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding:18px 28px;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;text-decoration:none;color:#fff}
+.logo svg{width:30px;height:30px;color:#fff}
+.badge{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--peach);border:1px solid rgba(255,138,91,.35);padding:4px 8px;border-radius:6px}
+header .sp{flex:1}
+header a.back{font-size:14px;color:var(--muted);text-decoration:none}
+header a.back:hover{color:#fff}
+main{position:relative;z-index:1;display:grid;grid-template-columns:minmax(340px,440px) 1fr;gap:0;min-height:calc(100vh - 67px)}
+/* left */
+.q{padding:40px 36px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.kick{font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
+h1{font-size:34px;line-height:1.08;letter-spacing:-.02em;margin:12px 0 12px;color:#fff}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--coral),var(--peach));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:#B9C3D4;font-size:15.5px;line-height:1.55}
+.progress{display:flex;gap:6px;margin:28px 0 22px}
+.progress i{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.1);transition:background .3s}
+.progress i.on{background:var(--coral)}
+.step{animation:in .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.step .n{font:500 12px var(--mono);color:var(--muted)}
+.step h2{font-size:21px;color:#fff;margin:6px 0 16px;line-height:1.25;letter-spacing:-.01em}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:all .16s;font-size:15px;color:#E8EDF5}
+.opt:hover{background:rgba(255,255,255,.08);border-color:rgba(255,138,91,.5);transform:translateX(3px)}
+.opt kbd{font:600 11px var(--mono);min-width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:rgba(255,255,255,.08);color:var(--muted)}
+.opt.sel{border-color:var(--coral);background:rgba(232,69,60,.12)}
+.term{border-bottom:1px dotted rgba(255,255,255,.45);cursor:help;position:relative}
+.term:hover:after{content:attr(data-tip);position:absolute;left:0;top:130%;width:240px;padding:10px 12px;border-radius:10px;background:#fff;color:var(--navy);font-size:13px;line-height:1.4;z-index:9;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.hint{margin-top:auto;padding-top:26px;font:12px var(--mono);color:#5F6D85}
+.hint b{color:#8A97AD;font-weight:500}
+/* right */
+.stage{display:flex;flex-direction:column;min-width:0}
+.tabs{display:flex;align-items:center;gap:4px;padding:14px 22px;border-bottom:1px solid var(--line)}
+.tab{font:500 13px var(--mono);padding:8px 12px;border-radius:8px;color:var(--muted)}
+.tab.on{background:rgba(255,255,255,.08);color:#fff}
+.tabs .sp{flex:1}
+.run{font:600 13px var(--mono);padding:9px 14px;border-radius:9px;background:var(--coral);color:#fff;display:flex;align-items:center;gap:8px;opacity:.35;pointer-events:none;transition:opacity .3s}
+.run.ready{opacity:1;pointer-events:auto;box-shadow:0 8px 24px rgba(232,69,60,.35)}
+.run.ready:hover{transform:translateY(-1px)}
+.pane{flex:1;position:relative;min-height:440px;display:none}
+.pane.on{display:block}
+#canvas{position:absolute;inset:0;width:100%;height:100%}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#5F6D85;font:13px var(--mono);pointer-events:none;transition:opacity .4s}
+.empty svg{width:64px;height:64px;color:#24395C;margin-bottom:12px}
+.node rect.box{fill:#0F2747;stroke:rgba(255,255,255,.14);stroke-width:1.2}
+.node.trigger rect.box{stroke:var(--peach)}
+.node.ai rect.box{stroke:var(--violet)}
+.node.err rect.box{stroke:var(--amber);stroke-dasharray:4 3}
+.node text{fill:#fff;font:600 12.5px Inter,sans-serif}
+.node text.s{fill:#8A97AD;font:500 10.5px var(--mono)}
+.node .ic{font:15px sans-serif}
+.node{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+.node.lit rect.box{stroke:var(--ok);stroke-width:2;filter:drop-shadow(0 0 10px rgba(47,191,113,.55))}
+.edge{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.6;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1s ease forwards}
+.edge.no{stroke:rgba(245,181,68,.45)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.pkt{fill:var(--ok);filter:drop-shadow(0 0 6px var(--ok))}
+.lbl{fill:#8A97AD;font:500 10px var(--mono)}
+pre{position:absolute;inset:0;overflow:auto;padding:22px 26px;font:12.5px/1.65 var(--mono);color:#C9D3E3;white-space:pre}
+.k{color:#FF8A5B}.s{color:#9FE0B5}.n{color:#C6B8FF}.p{color:#5F6D85}.c{color:#5F6D85;font-style:italic}
+#logs{position:absolute;inset:0;overflow:auto;padding:22px 26px;font:12.5px/1.8 var(--mono)}
+#logs div{animation:in .25s}
+.t{color:#5F6D85}.okc{color:var(--ok)}.wc{color:var(--amber)}.ic2{color:var(--violet)}
+.foot{display:flex;flex-wrap:wrap;gap:18px;padding:12px 22px;border-top:1px solid var(--line);font:12px var(--mono);color:#5F6D85}
+.foot b{color:#B9C3D4;font-weight:500}
+/* result */
+.res .card{border-radius:16px;padding:22px;background:linear-gradient(160deg,rgba(232,69,60,.16),rgba(124,108,255,.08));border:1px solid rgba(255,255,255,.12)}
+.res .pf{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--peach)}
+.res h2{font-size:24px;margin:8px 0 10px;color:#fff}
+.res p{color:#C6CFDD;font-size:15px;line-height:1.55}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.kpi{border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);padding:14px}
+.kpi b{display:block;font-size:26px;color:#fff;letter-spacing:-.02em}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.res ul{list-style:none;display:grid;gap:8px;margin:14px 0 4px}
+.res li{font-size:14.5px;color:#D5DCE7;padding-left:22px;position:relative;line-height:1.45}
+.res li:before{content:"";position:absolute;left:4px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.note{font-size:12px;color:#6F7D95;margin-top:10px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;padding:13px 18px;border-radius:11px;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{background:var(--coral);color:#fff;box-shadow:0 10px 24px rgba(232,69,60,.3)}
+.btn.g{border:1px solid rgba(255,255,255,.25);color:#fff}
+.ref{font:12px var(--mono);color:#6F7D95;margin-top:14px}
+.again{margin-top:16px;font:13px var(--mono);color:var(--muted);text-decoration:underline}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,40px);opacity:0;background:#fff;color:var(--navy);padding:12px 18px;border-radius:12px;font:600 13.5px Inter,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,.4);transition:all .35s;z-index:20}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media(max-width:900px){
+ main{grid-template-columns:1fr}
+ .q{border-right:0;border-bottom:1px solid var(--line);padding:28px 22px}
+ h1{font-size:28px}
+ .pane{min-height:380px}
+ .hint{display:none}
+ header{padding:14px 18px}
+ header a.back{display:none}
+ .tabs{padding:10px 12px;gap:2px}
+ .tab{padding:7px 8px;font-size:12px}
+ .run{padding:8px 10px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="nB" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="6"/><g stroke="#E8453C" stroke-width="5" stroke-linecap="round"><path d="M50 18 L50 40 M22 66 L41 55 M78 66 L59 55"/></g><circle cx="50" cy="16" r="7" fill="#E8453C"/><circle cx="20" cy="67" r="7" fill="#E8453C"/><circle cx="80" cy="67" r="7" fill="#E8453C"/><circle cx="50" cy="50" r="13" fill="currentColor"/></symbol>
+</defs></svg>
+
+<header>
+ <a class="logo" href="../"><svg><use href="#nB"/></svg>essensia</a>
+ <span class="badge">Labo</span>
+ <span class="sp"></span>
+ <a class="back" href="../">← Retour au site</a>
+</header>
+
+<main>
+ <section class="q" id="left">
+  <div class="kick">Le Labo · 90 secondes</div>
+  <h1>Votre automatisation, <em>dessinée en direct.</em></h1>
+  <p class="lead">Répondez à 6 questions. À droite, le workflow se construit sous vos yeux, avec son code. À la fin : votre plan et une estimation du temps gagné.</p>
+  <div class="progress" id="prog"></div>
+  <div id="qbox"></div>
+  <div class="hint">Astuce : touches <b>1</b>–<b>4</b> pour répondre · <b>R</b> pour exécuter</div>
+ </section>
+
+ <section class="stage">
+  <div class="tabs">
+   <button class="tab on" data-p="flow">schéma</button>
+   <button class="tab" data-p="code">&lt;/&gt; code</button>
+   <button class="tab" data-p="logs">exécution</button>
+   <span class="sp"></span>
+   <button class="run" id="run">▶ Exécuter</button>
+  </div>
+  <div class="pane on" id="p-flow">
+   <svg id="canvas" preserveAspectRatio="xMidYMid meet"></svg>
+   <div class="empty" id="empty"><div><svg><use href="#nB"/></svg><br>Le schéma apparaît dès votre première réponse.</div></div>
+  </div>
+  <div class="pane" id="p-code"><pre id="code"></pre></div>
+  <div class="pane" id="p-logs"><div id="logs"><div class="t">// Lancez l'exécution une fois le workflow construit.</div></div></div>
+  <div class="foot"><span>nœuds <b id="fN">0</b></span><span>connexions <b id="fE">0</b></span><span>hébergement <b id="fH">—</b></span><span>IA <b id="fA">—</b></span></div>
+ </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+(()=>{
+"use strict";
+/* ============================================================
+   Le Labo Essensia : générateur de workflow en direct.
+   Code écrit à la main, sans dépendance. Curieux ? Tapez
+   essensia.hello() dans cette console.
+   ============================================================ */
+const MAIL = "Shtwessiedumay@icloud.com";
+const $ = s => document.querySelector(s);
+const T = (w,txt) => `<span class="term" data-tip="${w}">${txt}</span>`;
+
+const Q = [
+ {id:"domain", t:"Quelle tâche vous fait perdre le plus de temps ?", o:[
+   {l:"Les factures fournisseurs", v:"fact", w:null},
+   {l:"Les contrats et l'arrivée des salariés", v:"rh", w:null},
+   {l:"Les cooptations et le recrutement", v:"coopt", w:null},
+   {l:"Ressaisir les données entre CRM et compta", v:"crm", w:null}]},
+ {id:"src", t:"Aujourd'hui, comment ces informations vous arrivent-elles ?", o:[
+   {l:"Par e-mail, souvent en PDF", v:"mail", w:0},
+   {l:"Dans un tableur partagé", v:"sheet", w:1},
+   {l:"Par un formulaire ou un outil métier", v:"form", w:1},
+   {l:`Par ${T("Un webhook est une URL qu'un logiciel appelle automatiquement quand un événement se produit.","webhook")} ou API depuis notre SaaS`, v:"hook", w:2}]},
+ {id:"err", t:"Quand une information manque ou est fausse, que se passe-t-il ?", o:[
+   {l:"On s'en rend compte… souvent trop tard", v:0, w:0},
+   {l:"Quelqu'un vérifie tout à la main", v:1, w:1},
+   {l:"On a des règles de contrôle, mais éparpillées", v:2, w:1},
+   {l:"Il faudrait des retries et une file d'erreurs dédiée", v:3, w:2}]},
+ {id:"vol", t:"Quel volume, à peu près ?", o:[
+   {l:"Je ne sais pas trop", v:40, w:0},
+   {l:"Quelques dizaines par mois", v:40, w:1},
+   {l:"Des centaines par mois", v:300, w:1},
+   {l:`Assez pour surveiller le ${T("Limite du nombre d'appels qu'une API accepte sur une période donnée.","rate limiting")}`, v:1200, w:2}]},
+ {id:"host", t:"Où l'automatisation devrait-elle tourner ?", o:[
+   {l:"Peu importe, tant que ça marche", v:"cloud", w:0},
+   {l:"Dans nos outils actuels (Google, Microsoft…)", v:"cloud", w:1},
+   {l:"Sur une plateforme gérée, type n8n Cloud", v:"cloud", w:1},
+   {l:"Self-hosted : Docker, nos propres credentials", v:"self", w:2}]},
+ {id:"ai", t:"Et l'IA dans tout ça ?", o:[
+   {l:"J'aimerais d'abord comprendre ce qu'elle ferait", v:"none", w:0},
+   {l:"Lire et trier les documents à notre place", v:"read", w:1},
+   {l:"Extraction structurée, avec validation humaine", v:"hitl", w:2},
+   {l:"Prompt versionné, sortie JSON stricte, évaluations", v:"strict", w:2}]},
+];
+
+/* Bibliothèque de nœuds par domaine */
+const SRC = {
+ mail:{name:"Gmail Trigger",sub:"nouveau message",ic:"✉",type:"n8n-nodes-base.gmailTrigger"},
+ sheet:{name:"Sheets Trigger",sub:"nouvelle ligne",ic:"▦",type:"n8n-nodes-base.googleSheetsTrigger"},
+ form:{name:"Form Trigger",sub:"soumission",ic:"☰",type:"n8n-nodes-base.formTrigger"},
+ hook:{name:"Webhook",sub:"POST /events",ic:"⚡",type:"n8n-nodes-base.webhook"}};
+const DOM = {
+ fact:{label:"factures",ph:"Vos factures sont traitées",min:10,ai:"Extraction facture",check:"SIRET · RIB · doublons",ok:{name:"Qonto",sub:"préparer le paiement",ic:"€"},ko:{name:"Slack",sub:"#compta · à vérifier",ic:"#"}},
+ rh:{label:"dossiers salariés",ph:"Vos dossiers salariés sont préparés",min:35,ai:"Rédaction du contrat",check:"convention · période d'essai",ok:{name:"Google Drive",sub:"dossier du salarié",ic:"▣"},ko:{name:"Gmail",sub:"pièces manquantes",ic:"✉"}},
+ coopt:{label:"cooptations",ph:"Vos cooptations sont traitées",min:12,ai:"Lecture du dossier",check:"matricule · doublon",ok:{name:"Google Sheets",sub:"registre des primes",ic:"▦"},ko:{name:"Gmail",sub:"accusé + relance",ic:"✉"}},
+ crm:{label:"fiches clients",ph:"Vos fiches clients sont synchronisées",min:8,ai:"Normalisation",check:"mapping · SIREN",ok:{name:"Pennylane",sub:"créer le client",ic:"◆"},ko:{name:"Slack",sub:"#ops · conflit",ic:"#"}}};
+
+let st = {i:0, a:{}, sig:0, codeSeen:false, tips:0, keys:0, ran:false, t0:Date.now(), times:[]};
+const W = 1000, H = 560;
+
+/* ---------- Questions ---------- */
+function prog(){ $("#prog").innerHTML = Q.map((_,k)=>`<i class="${k<st.i?'on':''}"></i>`).join(""); }
+function ask(){
+ prog();
+ if(st.i>=Q.length) return result();
+ const q = Q[st.i];
+ $("#qbox").innerHTML = `<div class="step"><div class="n">${String(st.i+1).padStart(2,"0")} / 06</div><h2>${q.t}</h2><div class="opts">${
+   q.o.map((o,k)=>`<button class="opt" data-k="${k}"><kbd>${k+1}</kbd><span>${o.l}</span></button>`).join("")}</div></div>`;
+ $("#qbox").querySelectorAll(".opt").forEach(b=>b.onclick=e=>{ if(e.target.classList.contains("term")) return; pick(+b.dataset.k); });
+ $("#qbox").querySelectorAll(".term").forEach(t=>t.addEventListener("mouseenter",()=>st.tips++,{once:true}));
+ st.tq = Date.now();
+}
+function pick(k){
+ const q = Q[st.i], o = q.o[k];
+ st.a[q.id] = o; st.times.push(Date.now()-st.tq);
+ $("#qbox").querySelectorAll(".opt")[k].classList.add("sel");
+ st.i++; setTimeout(()=>{ build(); ask(); }, 260);
+}
+
+/* ---------- Construction du graphe ---------- */
+function graph(){
+ const a = st.a, d = DOM[(a.domain||{}).v||"fact"], N = [], E = [];
+ if(!a.domain) return {N,E};
+ const s = SRC[(a.src||{}).v] || {name:"Déclencheur",sub:"à définir",ic:"○",type:"n8n-nodes-base.manualTrigger"};
+ N.push({id:"t",x:20,y:250,cls:"trigger",...s});
+ const aiMode = (a.ai||{}).v;
+ if(a.ai && aiMode!=="none"){
+  N.push({id:"ai",x:215,y:250,cls:"ai",name:"Claude",sub:d.ai+(aiMode==="strict"?" · JSON":""),ic:"✦",type:"@n8n/n8n-nodes-langchain.lmChatAnthropic"});
+ } else {
+  N.push({id:"ai",x:215,y:250,cls:"",name:"Extraction",sub:"règles simples",ic:"⌘",type:"n8n-nodes-base.extractFromFile"});
+ }
+ N.push({id:"chk",x:410,y:250,name:"Contrôles",sub:d.check,ic:"✓",type:"n8n-nodes-base.code"});
+ N.push({id:"if",x:605,y:250,name:"IF",sub:"conforme ?",ic:"⑂",type:"n8n-nodes-base.if"});
+ N.push({id:"ok",x:800,y:150,...d.ok,type:"n8n-nodes-base.httpRequest"});
+ N.push({id:"ko",x:800,y:350,...d.ko,type:"n8n-nodes-base.slack"});
+ E.push(["t","ai"],["ai","chk"],["chk","if"],["if","ok","oui"],["if","ko","non",1]);
+ if(aiMode==="hitl"||aiMode==="strict"){ N.push({id:"hum",x:605,y:440,name:"Validation",sub:"humain dans la boucle",ic:"👤",type:"n8n-nodes-base.wait"}); E.push(["ko","hum"]); }
+ const e = (a.err||{}).v;
+ if(e>=2){ N.push({id:"er",x:215,y:440,cls:"err",name:"Error Trigger",sub:e===3?"retry ×3 · backoff":"journal",ic:"!",type:"n8n-nodes-base.errorTrigger"}); N.push({id:"log",x:410,y:440,name:"Journal",sub:"Sheets · audit",ic:"▤",type:"n8n-nodes-base.googleSheets"}); E.push(["er","log"]); }
+ else if(a.err){ N.push({id:"log",x:410,y:80,name:"Journal",sub:"chaque action",ic:"▤",type:"n8n-nodes-base.googleSheets"}); E.push(["chk","log"]); }
+ if((a.vol||{}).v>=1200){ N.push({id:"q",x:20,y:80,name:"Split in Batches",sub:"lots de 50",ic:"≡",type:"n8n-nodes-base.splitInBatches"}); E.push(["q","t"]); }
+ return {N,E};
+}
+const NW=164, NH=58;
+function draw(){
+ const {N,E} = graph(), svg = $("#canvas"), byId = Object.fromEntries(N.map(n=>[n.id,n]));
+ svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+ $("#empty").style.opacity = N.length?0:1;
+ let h = "";
+ E.forEach(([f,t,l,no],k)=>{ const A=byId[f],B=byId[t]; if(!A||!B) return;
+  let x1=A.x+NW, y1=A.y+NH/2, x2=B.x, y2=B.y+NH/2;
+  if(B.x<=A.x){ x1=A.x+NW/2; y1=A.y+(B.y>A.y?NH:0); x2=B.x+NW/2; y2=B.y+(B.y>A.y?0:NH); }
+  const mx=(x1+x2)/2, d = B.x<=A.x ? `M${x1},${y1} C${x1},${(y1+y2)/2} ${x2},${(y1+y2)/2} ${x2},${y2}` : `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+  h += `<path id="e${k}" class="edge${no?' no':''}" d="${d}" style="animation-delay:${k*.06}s"/>`;
+  if(l) h += `<text class="lbl" x="${mx-6}" y="${(y1+y2)/2-6}">${l}</text>`;
+ });
+ N.forEach((n,k)=>{
+  h += `<g class="node ${n.cls||''}" id="n-${n.id}" style="transform-origin:${n.x+NW/2}px ${n.y+NH/2}px;animation-delay:${k*.05}s">
+   <rect class="box" x="${n.x}" y="${n.y}" width="${NW}" height="${NH}" rx="12"/>
+   <text class="ic" x="${n.x+14}" y="${n.y+35}">${n.ic}</text>
+   <text x="${n.x+38}" y="${n.y+25}">${n.name}</text>
+   <text class="s" x="${n.x+38}" y="${n.y+42}">${n.sub.length>20?n.sub.slice(0,19)+"…":n.sub}</text></g>`;
+ });
+ svg.innerHTML = h;
+ $("#fN").textContent = N.length; $("#fE").textContent = E.length;
+ $("#fH").textContent = st.a.host ? (st.a.host.v==="self"?"self-hosted":"cloud") : "—";
+ $("#fA").textContent = st.a.ai ? ({none:"aucune",read:"lecture",hitl:"validation humaine",strict:"JSON strict"})[st.a.ai.v] : "—";
+ return {N,E};
+}
+function build(){ const g = draw(); code(g); $("#run").classList.toggle("ready", st.i>=Q.length); }
+
+/* ---------- Export JSON (format n8n simplifié) ---------- */
+function wf({N,E}){
+ const name = n=>`${n.name} · ${n.sub}`;
+ const conn = {};
+ E.forEach(([f,t,l])=>{ const A=N.find(n=>n.id===f), B=N.find(n=>n.id===t); if(!A||!B) return;
+  const c = conn[name(A)] ||= {main:[[],[]]}; c.main[l==="non"?1:0].push({node:name(B),type:"main",index:0}); });
+ Object.values(conn).forEach(c=>{ if(!c.main[1].length) c.main.pop(); });
+ return {name:"Essensia · "+(DOM[(st.a.domain||{}).v]||{label:"workflow"}).label, nodes:N.map(n=>({name:name(n),type:n.type,typeVersion:1,position:[n.x*1.2|0,n.y*1.2|0],parameters:{}})), connections:conn, settings:{executionOrder:"v1", saveManualExecutions:true, errorWorkflow: N.some(n=>n.id==="er")?"essensia-errors":undefined}, meta:{generatedBy:"labo.essensia", estimate:true}};
+}
+function hl(json){
+ return json.replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))
+  .replace(/("(?:\\.|[^"\\])*")(\s*:)?/g,(m,s,c)=>c?`<span class="k">${s}</span><span class="p">${c}</span>`:`<span class="s">${s}</span>`)
+  .replace(/\b(-?\d+(?:\.\d+)?|true|false|null)\b/g,'<span class="n">$1</span>');
+}
+function code(g){
+ const head = `<span class="c">// Généré en direct par le Labo Essensia · format n8n simplifié\n// ${g.N.length} nœuds, ${g.E.length} connexions · ${new Date().toLocaleDateString("fr-FR")}</span>\n\n`;
+ $("#code").innerHTML = g.N.length ? head + hl(JSON.stringify(wf(g),null,2)) : '<span class="c">// En attente de votre première réponse…</span>';
+}
+
+/* ---------- Exécution simulée ---------- */
+async function run(){
+ if(st.i<Q.length) return;
+ st.ran = true; showPane("flow");
+ const g = graph(), svg = $("#canvas"), logs = $("#logs"), d = DOM[st.a.domain.v];
+ logs.innerHTML = "";
+ const log = (cls,txt)=>{ const t=(performance.now()/1000).toFixed(3); logs.insertAdjacentHTML("beforeend",`<div><span class="t">[${t}]</span> <span class="${cls}">${txt}</span></div>`); logs.scrollTop=1e9; };
+ log("t", `▶ exécution manuelle · ${g.N.length} nœuds`);
+ const path = ["t","ai","chk","if", Math.random()<.8?"ok":"ko"];
+ for(let k=0;k<path.length;k++){
+  const n = g.N.find(x=>x.id===path[k]); const el = document.getElementById("n-"+n.id); el && el.classList.add("lit");
+  const ms = n.cls==="ai" ? 900+Math.random()*700|0 : 40+Math.random()*160|0;
+  if(k<path.length-1){ const ei = g.E.findIndex(e=>e[0]===path[k]&&e[1]===path[k+1]); const p = document.getElementById("e"+ei);
+   if(p){ const c=document.createElementNS("http://www.w3.org/2000/svg","circle"); c.setAttribute("r",5); c.setAttribute("class","pkt"); svg.appendChild(c);
+    const L=p.getTotalLength(), t0=performance.now(), dur=Math.min(ms,600);
+    await new Promise(res=>{ (function f(now){ const r=Math.min(1,(now-t0)/dur); const pt=p.getPointAtLength(L*r); c.setAttribute("cx",pt.x); c.setAttribute("cy",pt.y); r<1?requestAnimationFrame(f):(c.remove(),res()); })(t0); }); } }
+  else await new Promise(r=>setTimeout(r,ms));
+  log(n.cls==="ai"?"ic2":(n.id==="ko"?"wc":"okc"), `✓ ${n.name} · ${n.sub} <span class="t">(${ms} ms)</span>`);
+ }
+ log("okc", `■ terminé · 1 élément traité sans ressaisie`);
+ toast("Exécution réussie ✓  (simulation)");
+}
+
+/* ---------- Profil (discret) ---------- */
+function level(){
+ const ws = Object.values(st.a).map(o=>o.w).filter(w=>w!==null);
+ let s = ws.reduce((x,y)=>x+y,0)/ws.length;
+ if(st.codeSeen) s+=.25; if(st.sig) s+=.5; if(st.keys>=3) s+=.15; if(st.tips>=2) s-=.25;
+ return s>=1.45?2:(s>=.7?1:0);
+}
+function refCode(lv){
+ const A="ABCDEFGHJKMNPQRSTUVWXYZ23456789"; let r="";
+ for(let k=0;k<3;k++) r+=A[Math.random()*A.length|0];
+ const dg = [0,3,6,9][Math.random()*4|0]+lv; return `ESS-${r}${dg>9?dg-3:dg}`;
+}
+
+/* ---------- Résultat ---------- */
+function result(){
+ const a = st.a, d = DOM[a.domain.v], lv = level(), vol = a.vol.v, ref = refCode(lv);
+ const hours = Math.round(vol*d.min*.75/60), cost = Math.round(hours*35/10)*10;
+ const P = [
+  {pf:"Profil Pilote", h:"Un plan simple, sans jargon", p:`On part de votre façon de travailler actuelle. ${d.ph} automatiquement, et vous gardez la main sur chaque décision importante.`,
+   li:["Vous n'avez rien à installer : on s'adapte à vos outils","Une personne valide toujours avant l'envoi","Un tableau de suivi simple pour voir ce qui a été fait"]},
+  {pf:"Profil Bâtisseur", h:"Un processus fiable de bout en bout", p:`Votre circuit des ${d.label} devient un workflow unique : contrôles centralisés, cas particuliers renvoyés vers la bonne personne, tout est journalisé.`,
+   li:["Contrôles regroupés à un seul endroit (fini les règles éparpillées)","Alertes uniquement sur les cas à vérifier","Mise en production progressive, d'abord en parallèle de l'existant"]},
+  {pf:"Profil Architecte", h:"On parle le même langage", p:`Déclencheur ${SRC[a.src.v].name.toLowerCase()}, nœud de contrôle en code, branche d'erreur dédiée${a.host.v==="self"?", déploiement self-hosted (Docker) avec vos credentials":""}. Le JSON est à droite, importable comme base de travail.`,
+   li:["Sortie IA typée (JSON schema) et validée côté workflow","Idempotence : clé de déduplication par document","Error workflow, retries avec backoff, journal d'audit"]}][lv];
+ $("#qbox").innerHTML = `<div class="step res"><div class="card">
+   <div class="pf">${P.pf}</div><h2>${P.h}</h2><p>${P.p}</p>
+   <div class="kpis"><div class="kpi"><b>~${hours} h</b><span>gagnées par mois (estimation)</span></div><div class="kpi"><b>~${cost.toLocaleString("fr-FR")} €</b><span>de temps libéré / mois (35 €/h)</span></div></div>
+   <ul>${P.li.map(x=>`<li>${x}</li>`).join("")}</ul>
+   <div class="note">Estimation indicative, calculée sur ${vol} ${d.label}/mois, ${d.min} min par traitement manuel et 75 % automatisés.</div>
+   <div class="cta"><a class="btn p" id="mail" href="#">Recevoir mon plan détaillé →</a>${lv===2?'<button class="btn g" id="dl">Télécharger le .json</button>':'<a class="btn g" href="../#cas">Voir des cas clients</a>'}</div>
+   <div class="ref">réf. projet ${ref}</div></div>
+   <button class="again" id="again">↺ recommencer</button></div>`;
+ const body = `Bonjour Essensia,\n\nJe viens de passer par le Labo. Mon sujet : ${d.label} (${vol}/mois environ, réception : ${SRC[a.src.v].name}).\nJ'aimerais recevoir le plan détaillé.\n\nRéf. projet : ${ref}\n\nNom :\nSociété :\nTéléphone :`;
+ $("#mail").href = `mailto:${MAIL}?subject=${encodeURIComponent("Labo Essensia · "+d.label+" · "+ref)}&body=${encodeURIComponent(body)}`;
+ const dl = $("#dl"); if(dl) dl.onclick = ()=>{ const b=new Blob([JSON.stringify(wf(graph()),null,2)],{type:"application/json"}); const u=URL.createObjectURL(b); const x=document.createElement("a"); x.href=u; x.download="essensia-workflow.json"; x.click(); URL.revokeObjectURL(u); };
+ $("#again").onclick = ()=>{ st = {...st, i:0, a:{}, ran:false, times:[]}; build(); ask(); };
+ $("#run").classList.add("ready");
+ if(innerWidth<900) document.querySelector(".stage").scrollIntoView({behavior:"smooth"});
+}
+
+/* ---------- UI ---------- */
+function showPane(p){ document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===p)); document.querySelectorAll(".pane").forEach(x=>x.classList.toggle("on",x.id==="p-"+p)); if(p==="code") st.codeSeen=true; }
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>showPane(t.dataset.p));
+$("#run").onclick = run;
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),2400); }
+addEventListener("keydown",e=>{
+ if(e.target.closest("input,textarea")) return;
+ const k=+e.key; if(k>=1&&k<=4&&st.i<Q.length){ st.keys++; pick(k-1); }
+ if(e.key==="r"||e.key==="R") run();
+});
+
+/* Pour celles et ceux qui ouvrent la console */
+window.essensia = {
+ hello(){ st.sig=1; console.log("%cBienvenue dans les coulisses.","color:#E8453C;font:600 14px Inter"); console.log("Ce labo est écrit à la main, sans framework : SVG, rendu JSON et exécution simulée. Écrivez-nous en précisant « console », on vous montrera la vraie stack."); return "🙂"; },
+ export(){ st.sig=1; return wf(graph()); }
+};
+console.log("%c essensia %c Vous lisez la console ? Tapez essensia.hello()","background:#0B1F3A;color:#fff;padding:3px 6px;border-radius:4px","color:#FF8A5B");
+
+ask(); build();
+})();
+</script>
+</body>
+</html>
