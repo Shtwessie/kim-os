@@ -57,7 +57,7 @@ section{padding:96px 0}
 .pain b{display:block;font-size:30px;font-weight:800;color:var(--coral)}
 .pain p{font-size:14.5px;color:var(--muted);margin-top:6px}
 /* services */
-.grid3{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}@media (max-width:1180px){.grid3{grid-template-columns:repeat(2,1fr)}}
 .svc{border:1px solid var(--line);border-radius:20px;padding:30px;background:#fff;transition:box-shadow .2s,transform .2s}
 .svc:hover{box-shadow:0 18px 40px rgba(11,31,58,.08);transform:translateY(-3px)}
 .svc .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--lin);margin-bottom:18px}
