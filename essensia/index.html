@@ -9,161 +9,25 @@
 <meta property="og:description" content="Automatisation RH, facturation et intégrations ERP/CRM avec n8n et des agents IA.">
 <meta property="og:image" content="https://shtwessie.github.io/kim-os/assets/essensia-banniere-linkedin.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='white' stroke='%230B1F3A' stroke-width='8'/%3E%3Cpath d='M50 18 L50 40 M22 66 L41 55 M78 66 L59 55' stroke='%23E8453C' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%230B1F3A'/%3E%3C/svg%3E">
-<style>
-:root{--navy:#0B1F3A;--navy2:#13305A;--coral:#E8453C;--peach:#FF8A5B;--lin:#F4F1EC;--ink:#0B1F3A;--muted:#5A6478;--line:#E4DED4;--ok:#2FBF71;--violet:#7C6CFF}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:"Inter","Inter Display",-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
-h1,h2,h3{letter-spacing:-.02em;line-height:1.1}
-.kick{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
-.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;padding:14px 22px;border-radius:12px;text-decoration:none;transition:transform .15s,box-shadow .15s}
-.btn:hover{transform:translateY(-2px)}
-.btn.p{background:var(--coral);color:#fff;box-shadow:0 10px 24px rgba(232,69,60,.28)}
-.btn.s{border:1.5px solid rgba(255,255,255,.35);color:#fff}
-.btn.d{border:1.5px solid var(--navy);color:var(--navy)}
-/* nav */
-nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;text-decoration:none;color:var(--navy)}
-.logo svg{width:34px;height:34px}
-nav .links{display:flex;gap:24px;margin-left:auto;font-size:14.5px;font-weight:500}
-nav .links a{text-decoration:none;color:var(--muted)}
-nav .links a:hover{color:var(--navy)}
-nav .btn{padding:10px 16px;font-size:14px;white-space:nowrap}
-nav .sm{display:none}
-/* hero */
-.hero{background:var(--navy);color:#fff;position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.2px,transparent 1.2px);background-size:22px 22px}
-.hero:after{content:"";position:absolute;right:-180px;top:-120px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(232,69,60,.45),transparent 65%)}
-.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-top:96px;padding-bottom:104px}
-.hero h1{font-size:60px;font-weight:800;margin:18px 0 22px}
-.hero h1 span{color:var(--peach)}
-.hero p.lead{font-size:19px;color:#C9D2E3;max-width:540px}
-.hero .cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-.hero .trust{display:flex;gap:26px;margin-top:40px;color:#9FB0CC;font-size:13.5px;flex-wrap:wrap}
-.hero .trust b{color:#fff;font-size:22px;display:block}
-/* hero workflow card */
-.flow{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:22px;backdrop-filter:blur(6px)}
-.flow .top{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#9FB0CC;margin-bottom:16px}
-.flow .top i{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(47,191,113,.2)}
-.node{display:flex;align-items:center;gap:12px;background:#132A4C;border:1.5px solid #2A4268;border-radius:14px;padding:12px 14px;font-size:14.5px;opacity:.35;transition:all .35s}
-.node small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8EA2C4}
-.node .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#1C365E;font-size:17px;flex:none}
-.node.on{opacity:1;border-color:var(--peach);box-shadow:0 0 0 4px rgba(255,138,91,.15)}
-.node.done{opacity:1;border-color:var(--ok)}
-.node.ia .ic{background:rgba(124,108,255,.25)}
-.link{width:2px;height:14px;background:#2A4268;margin:0 0 0 30px}
-.flow .res{margin-top:16px;display:flex;justify-content:space-between;font-size:13px;color:#9FB0CC}
-.flow .res b{color:var(--peach)}
-/* sections */
-section{padding:96px 0}
-.sh{max-width:720px;margin-bottom:48px}
-.sh h2{font-size:42px;font-weight:800;margin-top:12px}
-.sh p{color:var(--muted);font-size:17.5px;margin-top:14px}
-.lin{background:var(--lin)}
-/* pains */
-.pains{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.pain{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
-.pain b{display:block;font-size:30px;font-weight:800;color:var(--coral)}
-.pain p{font-size:14.5px;color:var(--muted);margin-top:6px}
-/* services */
-.grid3{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.svc{border:1px solid var(--line);border-radius:20px;padding:30px;background:#fff;transition:box-shadow .2s,transform .2s}
-.svc:hover{box-shadow:0 18px 40px rgba(11,31,58,.08);transform:translateY(-3px)}
-.svc .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--lin);margin-bottom:18px}
-.svc h3{font-size:22px}
-.svc p{color:var(--muted);margin-top:8px;font-size:15.5px}
-.svc ul{margin-top:14px;list-style:none;display:grid;gap:7px;font-size:14.5px}
-.svc li:before{content:"→";color:var(--coral);font-weight:700;margin-right:8px}
-/* cases */
-.cases{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.case{border-radius:22px;padding:34px;position:relative;overflow:hidden}
-.case.dark{background:var(--navy);color:#fff}
-.case.light{background:#fff;border:1px solid var(--line)}
-.case .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:8px;background:rgba(232,69,60,.12);color:var(--coral)}
-.case .big{font-size:76px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:20px;color:var(--peach)}
-.case.light .big{color:var(--coral)}
-.case h3{font-size:24px;margin-top:8px}
-.case p{margin-top:12px;font-size:15.5px;opacity:.85}
-.case ol{margin:18px 0 0 18px;font-size:14.5px;display:grid;gap:6px;opacity:.9}
-.case .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
-.case .meta span{font-size:12.5px;border:1px solid currentColor;border-radius:999px;padding:5px 11px;opacity:.75}
-/* method */
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s}
-.step{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
-.step:before{counter-increment:s;content:"0" counter(s);font-weight:800;font-size:13px;color:var(--coral);letter-spacing:.1em}
-.step h3{font-size:18px;margin-top:10px}
-.step p{font-size:14px;color:var(--muted);margin-top:6px}
-/* kim */
-.kim{background:linear-gradient(135deg,var(--coral),#B8322C);color:#fff;border-radius:28px;padding:56px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;position:relative;overflow:hidden}
-.kim h2{font-size:40px;font-weight:800}
-.kim p{font-size:17.5px;opacity:.92;margin-top:14px}
-.kim .btn{background:#fff;color:var(--coral);margin-top:26px}
-.bub{background:#fff;color:var(--ink);border-radius:18px 18px 18px 6px;padding:14px 16px;font-size:14.5px;box-shadow:0 12px 30px rgba(0,0,0,.15);margin-bottom:12px}
-.bub.u{background:var(--navy);color:#fff;border-radius:18px 18px 6px 18px;margin-left:40px}
-.bub b{color:var(--coral)}
-/* stack */
-.stack{display:flex;flex-wrap:wrap;gap:12px}
-.stack span{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 18px;font-weight:600;font-size:15px}
-/* about */
-.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}
-.about .card{background:var(--navy);color:#fff;border-radius:24px;padding:34px}
-.about .card svg{width:72px;height:72px}
-.about .card h3{font-size:24px;margin-top:18px}
-.about .card p{color:#C9D2E3;font-size:14.5px;margin-top:6px}
-.about .txt p{color:var(--muted);font-size:17px;margin-top:14px}
-.about .txt p:first-of-type{margin-top:0}
-/* faq */
-details{border-bottom:1px solid var(--line);padding:20px 0}
-summary{cursor:pointer;font-weight:600;font-size:17.5px;list-style:none;display:flex;justify-content:space-between}
-summary:after{content:"+";color:var(--coral);font-size:24px;line-height:1}
-details[open] summary:after{content:"–"}
-details p{color:var(--muted);margin-top:10px;max-width:780px}
-/* contact */
-.contact{background:var(--navy);color:#fff;text-align:center;padding:96px 0;position:relative;overflow:hidden}
-.contact h2{font-size:46px;font-weight:800}
-.contact h2 span{color:var(--peach)}
-.contact p{color:#C9D2E3;font-size:18px;margin:16px auto 0;max-width:620px}
-.contact .cta{display:flex;justify-content:center;gap:14px;margin-top:34px;flex-wrap:wrap}
-footer{background:#081629;color:#8EA2C4;font-size:13.5px;padding:28px 0}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a{color:#C9D2E3;text-decoration:none;margin-left:18px}
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
-.rv.in{opacity:1;transform:none}
-@media (max-width:960px){
- .hero .wrap,.cases,.kim,.about{grid-template-columns:1fr}
- .hero h1{font-size:42px}
- .pains{grid-template-columns:1fr 1fr}
- .grid3{grid-template-columns:1fr}
- .steps{grid-template-columns:1fr 1fr}
- nav .links{display:none}
- nav .btn{margin-left:auto}
- nav .lg{display:none} nav .sm{display:inline}
- .sh h2,.kim h2{font-size:32px}
- .contact h2{font-size:34px}
- .kim{padding:36px}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="nB" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="6"/><g stroke="#E8453C" stroke-width="5" stroke-linecap="round"><path d="M50 18 L50 40 M22 66 L41 55 M78 66 L59 55"/></g><circle cx="50" cy="16" r="7" fill="#E8453C"/><circle cx="20" cy="67" r="7" fill="#E8453C"/><circle cx="80" cy="67" r="7" fill="#E8453C"/><circle cx="50" cy="50" r="13" fill="currentColor"/></symbol>
 </defs></svg>
-
 <nav><div class="wrap">
- <a class="logo" href="#top"><svg><use href="#nB"/></svg>essensia</a>
- <div class="links"><a href="#services">Services</a><a href="#cas">Cas clients</a><a href="#methode">Méthode</a><a href="#kim">Agent IA</a><a href="labo/">Labo</a><a href="#faq">FAQ</a></div>
- <a class="btn p" href="#contact"><span class="lg">Parlons de vos process</span><span class="sm">Contact</span></a>
+ <a class="logo" href="index.html"><svg><use href="#nB"/></svg>essensia</a>
+ <div class="links"><a href="services.html">Services</a><a href="cas-clients.html">Cas clients</a><a href="methode.html">Méthode</a><a href="labo/">Labo</a><a href="a-propos.html">À propos</a></div>
+ <a class="btn p" href="contact.html"><span class="lg">Parlons de vos process</span><span class="sm">Contact</span></a>
 </div></nav>
-
+<div class="tabbar"><a href="index.html" class="on">Accueil</a><a href="services.html">Services</a><a href="cas-clients.html">Cas clients</a><a href="methode.html">Méthode</a><a href="labo/">Labo</a><a href="a-propos.html">À propos</a><a href="contact.html">Contact</a></div>
+<main>
 <header class="hero" id="top"><div class="wrap">
  <div>
   <div class="kick" style="color:var(--peach)">Automatisation · Agents IA · ERP / CRM</div>
   <h1>Concentrez-vous sur l'essentiel.<br><span>On automatise le reste.</span></h1>
   <p class="lead">Essensia conçoit des workflows n8n et des agents IA (Claude) qui prennent en charge l'administratif, la RH et la finance des PME et des ESN : factures, contrats, cooptations, relances, reporting.</p>
-  <div class="cta"><a class="btn p" href="labo/">Construire mon automatisation →</a><a class="btn s" href="#cas">Voir les cas clients</a></div>
+  <div class="cta"><a class="btn p" href="labo/">Construire mon automatisation →</a><a class="btn s" href="cas-clients.html">Voir les cas clients</a></div>
   <div class="trust"><div><b>300</b>dossiers traités en 1 jour</div><div><b>15</b>sociétés consolidées</div><div><b>1 600</b>factures classées en ~1 h</div></div>
  </div>
  <div class="flow" aria-label="Exemple de workflow">
@@ -176,7 +40,6 @@ footer a{color:#C9D2E3;text-decoration:none;margin-left:18px}
   <div class="res"><span>0 ressaisie</span><span id="flowT"><b>…</b></span></div>
  </div>
 </div></header>
-
 <section class="lin"><div class="wrap">
  <div class="sh rv"><div class="kick">Le constat</div><h2>Vos équipes passent leurs journées à copier-coller.</h2><p>Ces tâches sont indispensables, répétitives et sources d'erreurs. Ce sont exactement celles qu'on automatise.</p></div>
  <div class="pains rv">
@@ -186,79 +49,19 @@ footer a{color:#C9D2E3;text-decoration:none;margin-left:18px}
   <div class="pain"><b>⏰</b><p>Des relances et des échéances qui dépendent de la mémoire de chacun</p></div>
  </div>
 </div></section>
-
-<section id="services"><div class="wrap">
- <div class="sh rv"><div class="kick">Services</div><h2>Ce que nous automatisons pour vous</h2><p>Des automatisations sur mesure, construites dans vos outils, avec un contrôle humain là où il le faut.</p></div>
- <div class="grid3">
-  <div class="svc rv"><div class="ic">👥</div><h3>Automatisation RH</h3><p>Du recrutement à la gestion des dossiers du personnel.</p><ul><li>Cooptations : réception, matricules, routage, primes</li><li>Contrats et avenants conformes à votre convention</li><li>Classement automatique des pièces salariés</li><li>Suivi des habilitations et des échéances</li></ul></div>
-  <div class="svc rv"><div class="ic">🤖</div><h3>Agents IA (Claude)</h3><p>Des assistants qui lisent, classent et rédigent, sous votre contrôle.</p><ul><li>Extraction de données dans les PDF et e-mails</li><li>Rédaction de contrats, courriers et relances</li><li>Tri et qualification des demandes entrantes</li><li>Agent d'accueil sur votre site</li></ul></div>
-  <div class="svc rv"><div class="ic">💶</div><h3>Finance opérationnelle</h3><p>Une facturation fiable et une trésorerie suivie en continu.</p><ul><li>Factures fournisseurs : extraction, contrôles, anti-doublons</li><li>Rapprochements bancaires (Qonto…)</li><li>Relances clients J+7 / J+15 / J+30</li><li>Consolidation multi-sociétés</li></ul></div>
-  <div class="svc rv"><div class="ic">🔗</div><h3>Synchronisation ERP / CRM</h3><p>Vos outils se parlent enfin, sans ressaisie.</p><ul><li>Odoo, HubSpot, Pennylane, Sage, Qonto</li><li>Google Workspace, Notion, Slack</li><li>API REST et webhooks</li><li>Tableaux de bord mis à jour automatiquement</li></ul></div>
+<section><div class="wrap">
+ <div class="sh rv"><div class="kick">Découvrir</div><h2>Par où commencer ?</h2></div>
+ <div class="tiles rv">
+  <a class="tile" href="services.html"><div class="ic">⚙️</div><h3>Nos services</h3><p>RH, agents IA, finance, synchronisation ERP / CRM.</p><span>Voir les services →</span></a>
+  <a class="tile" href="cas-clients.html"><div class="ic">📈</div><h3>Cas clients</h3><p>300 cooptations en un jour, 1 600 factures classées en une heure.</p><span>Voir les résultats →</span></a>
+  <a class="tile" href="labo/"><div class="ic">🧪</div><h3>Le Labo</h3><p>Votre automatisation dessinée en direct, en 90 secondes.</p><span>Essayer →</span></a>
  </div>
 </div></section>
-
-<section class="lin" id="cas"><div class="wrap">
- <div class="sh rv"><div class="kick">Cas clients</div><h2>Des résultats concrets, pas des promesses</h2><p>Missions réelles, entreprises anonymisées.</p></div>
- <div class="cases">
-  <div class="case dark rv"><span class="tag">ESN · conseil IT</span><div class="big">300</div><h3>dossiers de cooptation traités en une journée</h3><p>Un groupe de 15 sociétés (~600 consultants) gérait ses cooptations dans des fichiers partagés. Nous avons automatisé tout le circuit avec n8n.</p><ol><li>Réception et lecture automatique de chaque cooptation</li><li>Attribution automatique des matricules</li><li>Routage vers la bonne société et le bon consultant</li><li>Mise à jour du tableau de suivi des primes</li></ol><div class="meta"><span>n8n</span><span>Google Sheets</span><span>Gmail</span></div></div>
-  <div class="case light rv"><span class="tag">ESN · facturation</span><div class="big">2</div><h3>workflows de factures en production</h3><p>Chaque facture fournisseur reçue par e-mail est lue par Claude, contrôlée puis préparée pour le paiement. Une archive de 1 600 factures a été classée et renommée en environ une heure.</p><ol><li>Extraction IA (montant, n° de facture, SIRET, RIB)</li><li>Contrôles et détection des doublons</li><li>Classement et préparation au paiement (Qonto)</li></ol><div class="meta"><span>n8n</span><span>Claude</span><span>Qonto</span></div></div>
-  <div class="case light rv"><span class="tag">Événementiel · RH</span><div class="big" style="font-size:56px">IDCC 1351</div><h3>agent IA de génération des contrats</h3><p>Pour une société de l'événementiel (10 à 30 agents d'accueil et de sécurité) : contrats conformes à la convention, dossiers RH rangés automatiquement et alertes avant l'expiration des cartes professionnelles. Relecture humaine avant toute signature.</p><div class="meta"><span>n8n</span><span>Claude</span><span>Google Drive</span><span>Sheets</span></div></div>
-  <div class="case dark rv"><span class="tag">Multi-sociétés · reporting</span><div class="big">15</div><h3>sociétés consolidées chaque mois</h3><p>Consolidation mensuelle automatisée avec Power Query et formules de contrôle des écarts de taux journaliers, pour un reporting fiable en quelques minutes.</p><div class="meta"><span>Power Query</span><span>Excel</span><span>Power BI</span></div></div>
- </div>
-</div></section>
-
-<section id="methode"><div class="wrap">
- <div class="sh rv"><div class="kick">Méthode</div><h2>Comprendre avant d'automatiser</h2><p>Nous venons du métier : paie, administration du personnel, facturation multi-sociétés. Nos workflows tiennent compte des vraies règles et des vraies exceptions.</p></div>
- <div class="steps rv">
-  <div class="step"><h3>Cartographier</h3><p>Le processus réel, avec vos équipes.</p></div>
-  <div class="step"><h3>Formaliser</h3><p>Les règles métier et les exceptions, noir sur blanc.</p></div>
-  <div class="step"><h3>Automatiser</h3><p>Dans vos outils, avec n8n et l'IA là où elle apporte.</p></div>
-  <div class="step"><h3>Sécuriser</h3><p>Contrôle humain sur ce qui engage l'entreprise.</p></div>
-  <div class="step"><h3>Mesurer</h3><p>Le temps et l'argent gagnés, chiffres à l'appui.</p></div>
- </div>
-</div></section>
-
-<section id="kim" style="padding-top:0"><div class="wrap">
- <div class="kim rv">
-  <div><div class="kick" style="color:#FFE1D6">Démo en direct</div><h2>Parlez à notre agent IA d'accueil</h2><p>Décrivez la tâche qui vous fait perdre du temps. Kim vous propose un workflow d'automatisation et estime vos gains en heures et en euros, en une minute.</p><a class="btn" href="https://shtwessie.github.io/kim-os/" target="_blank" rel="noopener">Lancer le diagnostic →</a></div>
-  <div><div class="bub">Bonjour 👋 Quelle tâche vous fait perdre le plus de temps ?</div><div class="bub u">Les factures fournisseurs : 200 par mois, 10 min chacune.</div><div class="bub">Je vous propose un workflow en 6 étapes. Gain estimé : <b>320 h et 11 200 € par an</b>.</div></div>
- </div>
-</div></section>
-
-<section class="lin"><div class="wrap">
- <div class="sh rv"><div class="kick">Stack</div><h2>Nous travaillons avec vos outils</h2></div>
- <div class="stack rv"><span>n8n</span><span>Make</span><span>Claude (Anthropic)</span><span>Odoo</span><span>HubSpot</span><span>Pennylane</span><span>Qonto</span><span>Sage</span><span>Google Workspace</span><span>Notion</span><span>Slack</span><span>Power Query</span><span>API REST</span></div>
-</div></section>
-
-<section><div class="wrap about">
- <div class="card rv"><svg style="color:#fff"><use href="#nB"/></svg><h3>Essensia</h3><p>Fondée en 2026 par Shtwessie D., Process Automation Specialist.</p><p style="margin-top:14px">Île-de-France · sur site ou à distance</p></div>
- <div class="txt rv"><div class="kick">À propos</div>
-  <p style="margin-top:12px;color:var(--ink);font-size:24px;font-weight:700;line-height:1.3">« J'ai traité ces dossiers à la main avant de les automatiser. »</p>
-  <p>Paie, administration du personnel, facturation de 15 sociétés et de 600 consultants en ESN : Essensia est née de cette expérience de terrain. Nous savons où se trouvent les règles, les exceptions et les risques d'erreur, et c'est ce qui fait qu'une automatisation tient en production.</p>
-  <p>Notre conviction : l'IA ne remplace pas vos équipes, elle les débarrasse du copier-coller.</p></div>
-</div></section>
-
-<section class="lin" id="faq"><div class="wrap">
- <div class="sh rv"><div class="kick">FAQ</div><h2>Questions fréquentes</h2></div>
- <details><summary>Faut-il changer nos outils ?</summary><p>Non. Nous automatisons à partir de ce que vous utilisez déjà (Google Workspace, Microsoft 365, votre ERP, votre CRM, votre banque).</p></details>
- <details><summary>Que se passe-t-il si l'IA se trompe ?</summary><p>Les décisions qui engagent l'entreprise (contrats, paiements) passent toujours par une validation humaine. Les cas ambigus sont signalés plutôt que traités en silence.</p></details>
- <details><summary>Et la confidentialité des données ?</summary><p>Les workflows tournent dans vos outils, avec des accès limités au strict nécessaire. Chaque automatisation est documentée.</p></details>
- <details><summary>Combien de temps pour un premier workflow ?</summary><p>Cela dépend du périmètre. Un premier appel de 20 minutes permet de cadrer le besoin et de vous proposer un chiffrage précis.</p></details>
- <details><summary>Travaillez-vous avec les ESN ?</summary><p>Oui, c'est notre terrain d'origine : cooptations, primes, facturation multi-sociétés, contrôle des CRA, réponses types sur les boîtes partagées.</p></details>
-</div></section>
-
-<section class="contact" id="contact"><div class="wrap">
- <div class="kick" style="color:var(--peach)">Contact</div>
- <h2>Quelle tâche voulez-vous<br><span>ne plus jamais faire ?</span></h2>
- <p>Un appel de 20 minutes pour cadrer votre besoin. Sans engagement.</p>
- <div class="cta"><a class="btn p" href="mailto:Shtwessiedumay@icloud.com?subject=Essensia%20%C2%B7%20Automatisation%20de%20mes%20process">Écrire à Essensia</a><a class="btn s" href="https://www.linkedin.com/company/essensia-automatisation/" target="_blank" rel="noopener">Suivre sur LinkedIn</a><a class="btn s" href="https://www.malt.fr/profile/shtwessiedumay" target="_blank" rel="noopener">Profil Malt</a></div>
-</div></section>
-
-<footer><div class="wrap"><span>© 2026 Essensia · Concentrez-vous sur l'essentiel. On automatise le reste.</span><span><a href="https://shtwessie.github.io/kim-os/">Portfolio</a><a href="https://www.linkedin.com/company/essensia-automatisation/">LinkedIn</a><a href="mailto:Shtwessiedumay@icloud.com">Contact</a></span></div></footer>
-
+</main>
+<footer><div class="wrap"><span>© 2026 Essensia · Concentrez-vous sur l'essentiel. On automatise le reste.</span><span><a href="labo/">Labo</a><a href="https://www.linkedin.com/company/essensia-automatisation/" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.malt.fr/profile/essensiacom" target="_blank" rel="noopener">Malt</a><a href="contact.html">Contact</a></span></div></footer>
 <script>
 // Animation du workflow
-(function(){const n=[...document.querySelectorAll('.flow .node')],t=document.getElementById('flowT');let i=0;
+(function(){const n=[...document.querySelectorAll('.flow .node')],t=document.getElementById('flowT');if(!t)return;let i=0;
  function tick(){ if(i<n.length){ n.forEach((x,k)=>{x.classList.toggle('on',k===i);x.classList.toggle('done',k<i);}); t.innerHTML='<b>'+(i+1)+'/'+n.length+'</b> étapes'; i++; setTimeout(tick,900);} else { n.forEach(x=>{x.classList.remove('on');x.classList.add('done')}); t.innerHTML='<b>✓ Terminé en 4,2 s</b>'; setTimeout(()=>{n.forEach(x=>x.classList.remove('done'));i=0;tick();},3200);} }
  tick();})();
 // Apparition au défilement
